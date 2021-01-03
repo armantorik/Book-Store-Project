@@ -37,45 +37,59 @@ include("includes/db.php");
 
 				<form class="login100-form validate-form" action="newlogin.php" method="post" >
 					<span class="login100-form-title">
-						Member Login
+						Sign Up
 					</span>
-
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="loginemail" id="loginemail" placeholder="Email">
+					<div class="wrap-input100" > <!-- data-validate = "Email is required: ex@abc.xyz" removed because doesn't allow go back without entering all info -->
+						<input class="input100" type="text" name="newEmail" id="newEmail" placeholder="Email">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
 						</span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="loginpass" id="loginpass" placeholder="Password">
+					<div class="wrap-input100">
+						<input class="input100" type="password" name="newPass" id="newPass" placeholder="Password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
 					</div>
 					
+					<div class="wrap-input100">
+						<input class="input100" type="text" name="newName" id="newName" placeholder="Name">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100">
+						<input class="input100" type="text" name="newNumber" id="newNumber" placeholder="Phone Number">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100">
+						<input class="input100" type="text" name="newAddress" id="newAddress" placeholder="Address">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn" type="submit" name="login">
-							Login
+						<button class="login100-form-btn" type="submit" name="sign">
+							Sign Up!
                         </button>
 					</div>
 
-					<div class="text-center p-t-12">
-						<span class="txt1">
-							Forgot
-						</span>
-						<a class="txt2" href="#">
-							Username / Password?
-						</a>
-					</div>
-
 					<div class="text-center p-t-136">
-						<a class="txt2" href="#">
-							Create your Account
-							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-						</a>
+						<button class="txt2" name = "goBack" href="#">
+						<i class="fa fa-long-arrow-left m-l-5" aria-hidden="true"></i>
+							Go back to login
+						</button>
 					</div>
                 </form>
                 
@@ -86,41 +100,22 @@ include("includes/db.php");
  
     <?php
     //Sign Up
-            if(isset($_POST['login']))
+            if(isset($_POST['sign']))
             {
 
-                $email= $_POST['loginemail'];
-                $pass = $_POST['loginpass'];
-                $name = $_POST['name'];
-                $phone = $_POST['phone'];
-                $adress = $_POST['adress'];
+                $newEmail= $_POST['newEmail'];
+                $newPass = $_POST['newPass'];
+                $newName = $_POST['newName'];
+                $newPhone = $_POST['newNumber'];
+                $newAdress = $_POST['newAddress'];
 
-                if (!$mysqli -> query("INSERT INTO `customers`(`c_name`, `c_mail`, `c_password`, `c_phone`, `c_address`) VALUES ('$cname','$maill', '$password', '$phone', '$address')")
-                {
-                    echo("Error description: " . $mysqli -> error);
-                }
-
-                if($addCustQuery == 0)
-                
-                // $email= $_POST['loginemail'];
-                // $pass = $_POST['loginpass'];
-                // $sel_c="select * from customers where c_password='$pass' AND c_mail='$email'";
-                // $run_c=mysqli_query($conn,$sel_c);
-                // $check_customer=mysqli_num_rows($run_c);
-                // if($check_customer==0)
-                // {
-                //     echo "<script>alert('Password or Username is incorrect')</script>";
-                    
-                // }
-
-                // else{
-                //         $_SESSION['email']=$email;
-                //         echo "<script>alert('Login Successful')</script>";
-                //         echo "<script>window.open('index.php','_self')</script>";
-        
-                //     }
-    
+                if (!$mysqli -> query("INSERT INTO `customers`(`c_name`, `c_mail`, `c_password`, `c_phone`, `c_address`) VALUES ('$newName','$newEmail', '$newPass', '$newPhone', '$newAdress')"))
+					echo("Error description: " . $mysqli -> error);
+					
 			}
+
+			else if(isset($_POST['goBack']))
+				echo "<script>window.open('newlogin.php','_self')</script>";
     ?>	
 
     

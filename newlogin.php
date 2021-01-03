@@ -63,19 +63,17 @@ include("includes/db.php");
 					</div>
 
 					<div class="text-center p-t-12">
-						<span class="txt1">
-							Forgot
-						</span>
-						<a class="txt2" href="#">
-							Username / Password?
+						<span class="login100-form-btn">
+							Forgot Username / Password?
 						</a>
 					</div>
 
-					<div class="text-center p-t-136">
-						<a class="txt2" href="#">
-							Create your Account
-							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-						</a>
+					<div class="text-center p-t-80">
+
+					<button class="txt2	" href="#" type="submit" name="signUp">
+						Create your Account
+						<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                    </button>
 					</div>
                 </form>
                 
@@ -107,6 +105,9 @@ include("includes/db.php");
                     }
     
 			}
+
+			else if(isset($_POST['signUp']))
+				echo "<script>window.open('sign_up.php','_self')</script>";
     ?>	
     
 <!--===============================================================================================-->	

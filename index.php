@@ -46,23 +46,20 @@ include("function/functions.php");
                     <?php 
                                       
                     
-                     if(isset($_SESSION['email'])){
-                        $sess=$_SESSION['email'];
-                        echo "<li><a>Hi ".$_SESSION['email']." !</a></li>";
-                        
-                    }
-                    else {
-                        echo "<li><a>Hi, Guest</a></li>";
-                    }
-
-                    if(!isset($_SESSION['email'])){
-                        echo "<li><a href='newlogin.php'>Login</a></li>";
-                    }
-                    else 
+                    if(isset($_SESSION['email']))
                     {
-                        echo "<li><a href='logout.php'>Logout</a></li>";
+                        $sess=$_SESSION['email'];
+                        echo "<li><a>Hi ".$_SESSION['email']." !</a></li>";   
                     }
-                                        
+                    else
+                        echo "<li><a>Hi, Guest</a></li>";
+
+
+                        
+                    if(!isset($_SESSION['email']))
+                        echo "<li><a href='newlogin.php'>Login</a></li>";
+                    else
+                        echo "<li><a href='logout.php'>Logout</a></li>";            
                     ?>
 
                     <li><a href="cart.php">Go to Cart<span class="badge"><?php total_items(); ?></span></a></li>

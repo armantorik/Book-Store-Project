@@ -28,17 +28,22 @@ function cart(){
         global $conn;
         $ip=getIpAdd();
         $maill = $_SESSION['email'];
-        $book_id=$_GET['add_cart'];
-        $check_product="SELECT `book_id`, `quantity` FROM `basket` WHERE  book_id='$book_id' AND customer_mail='$maill'";
-        $run_check=mysqli_query($conn, $check_product);
+        $book_id = $_GET['add_cart'];
+        $check_product = "SELECT `book_id`, `quantity` FROM `basket` WHERE  book_id='$book_id' AND customer_mail='$maill'";
+        $run_check = mysqli_query($conn, $check_product);
         if(mysqli_num_rows($run_check)>0)
         {
           //echo "Already added";
         }
-        else {
-          $insert_cart="INSERT INTO `basket`(`book_id`, `customer_mail`) VALUES ('$book_id','$maill')";
+        else 
+        {
+          if(isset($_SESSION['email']))
+            $insert_cart = "INSERT INTO `basket`(`book_id`, `customer_mail`) VALUES ('$book_id', '$maill')";
+          else
+            $insert_cart = "INSERT INTO `basket`(`book_id`, `customer_mail`) VALUES ('$book_id', '$gid')";
+
           $run_cart = mysqli_query($conn, $insert_cart);
-            echo "added";
+          echo "added";
           echo "<script>window.open('index.php','_self')</script>";
         }
     }
@@ -46,34 +51,54 @@ function cart(){
 function total_items(){
   global $conn;
   if(isset($_SESSION['email']))
-  {
     $maill = $_SESSION['email']; 
-  }
 
   else
   {
-    $_SESSION['gid'] = ;
+    $newGuest="INSERT INTO `guests` DEFAULT VALUES";
+    $run = mysqli_query($conn, $newGuest);
+
+    $lastElmnt = "SELECT `g_id` FROM `guests`  WHERE 1 = 1 ORDER BY `g_id` DESC LIMIT 1";
+    $queryIt = mysqli_query($conn, $lastElmnt);
+    while($gid = mysqli_fetch_row($queryIt))
+    {
+       $gid[0] . " ";
+    }
+    $_SESSION['gid'] = $gid[0];
+
   }
     if(isset($_GET['add_cart']))
     {
         $get_items="SELECT * FROM `basket` WHERE `customer_mail`='$maill'";
-        $run=mysqli_query($conn, $get_items);
+        $run = mysqli_query($conn, $get_items);
         $count = mysqli_num_rows($run);
     }
-    else {
-        $get_items="SELECT * FROM `basket` WHERE `customer_mail`='$maill'";
-        $run=mysqli_query($conn, $get_items);
+    else 
+    {
+        if(isset($_SESSION['email']))
+          $get_items = "SELECT * FROM `basket` WHERE `customer_mail` = '$maill'";
+        else
+          $get_items = "SELECT * FROM `basket` WHERE `customer_mail` = '$gid[0]'";
+          
+        $run = mysqli_query($conn, $get_items);
         $count = mysqli_num_rows($run);
     }
     echo $count;
 }
 
-function mycart() {
+function mycart() 
+{
   global $conn;
   $ip = getIpAdd();
-  $maill = $_SESSION['email'];
-  $count = 1;
-  $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$maill')";
+
+  if(isset($_SESSION['email']))
+    $maill = $_SESSION['email'];
+  
+    $count = 1;
+  if(isset($_SESSION['email']))
+    $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$maill')";
+  else
+    $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$gid[0]')";
   $cart_items = mysqli_query($conn,$get_cart);
   $total_price =0;    
   while($bk = mysqli_fetch_array($cart_items)){
