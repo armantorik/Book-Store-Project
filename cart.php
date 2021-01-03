@@ -120,11 +120,12 @@ include("function/functions.php");
     if(isset($_POST['update_cart']))
     {
         $maill = $_SESSION['email'];
-
-        foreach($_POST['remove'] as $remove_id){
+        if(isset($_POST['remove']))   
+        {
+            foreach($_POST['remove'] as $remove_id){
             $delete_books = "delete from basket where book_id = '$remove_id' AND customer_mail = '$maill'";
             $run_delete = mysqli_query($conn, $delete_books);
-            if($run_delete){
+            if($run_delete)
                 echo "<script>window.open('cart.php','_self');</script>";
             }
         }

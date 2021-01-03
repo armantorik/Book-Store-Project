@@ -114,7 +114,7 @@ include("includes/db.php");
 	
 		 $insert_product = "INSERT INTO `Books`(`author`, `keywords`, `title`, `price`, `image`, `description`, `category`) VALUES ('$product_author','$product_keywords','$product_title','$product_price','$product_image','$product_desc','$product_cat')";
 		 
-		 $insert_pro = mysqli_query($con, $insert_product);
+		 $insert_pro = mysqli_query($conn, $insert_product);
 		 
 		 if($insert_pro){
 		 

@@ -60,10 +60,7 @@ function total_items(){
 
     $lastElmnt = "SELECT `g_id` FROM `guests`  WHERE 1 = 1 ORDER BY `g_id` DESC LIMIT 1";
     $queryIt = mysqli_query($conn, $lastElmnt);
-    while($gid = mysqli_fetch_row($queryIt))
-    {
-       $gid[0] . " ";
-    }
+    while($gid = mysqli_fetch_row($queryIt)) {}
     $_SESSION['gid'] = $gid[0];
 
   }

@@ -35,7 +35,7 @@ include("includes/db.php");
 					<img src="Login_v1/images/img-01.png" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form" action="newlogin.php" method="post" >
+				<form class="login100-form validate-form" action="sign_up.php" method="post" >
 					<span class="login100-form-title">
 						Sign Up
 					</span>
@@ -85,7 +85,7 @@ include("includes/db.php");
                         </button>
 					</div>
 
-					<div class="text-center p-t-136">
+					<div class="text-center p-t-22">
 						<button class="txt2" name = "goBack" href="#">
 						<i class="fa fa-long-arrow-left m-l-5" aria-hidden="true"></i>
 							Go back to login
@@ -102,16 +102,22 @@ include("includes/db.php");
     //Sign Up
             if(isset($_POST['sign']))
             {
-
                 $newEmail= $_POST['newEmail'];
                 $newPass = $_POST['newPass'];
                 $newName = $_POST['newName'];
                 $newPhone = $_POST['newNumber'];
                 $newAdress = $_POST['newAddress'];
+				
 
-                if (!$mysqli -> query("INSERT INTO `customers`(`c_name`, `c_mail`, `c_password`, `c_phone`, `c_address`) VALUES ('$newName','$newEmail', '$newPass', '$newPhone', '$newAdress')"))
-					echo("Error description: " . $mysqli -> error);
-					
+				$ins = "INSERT INTO `customers`(`c_name`, `c_mail`, `c_password`, `c_phone`, `c_address`) VALUES ('$newName','$newEmail', '$newPass', '$newPhone', '$newAdress')";
+				
+				if ($res = $conn->query($ins)) 
+				{
+					echo "<script> alert('Welcome to bookstore') </script>";
+					echo "<script>window.open('newlogin.php','_self')</script>";
+				} 
+				else
+					echo "<script> alert('Could not create account, please change your input') </script>"; 
 			}
 
 			else if(isset($_POST['goBack']))

@@ -39,8 +39,7 @@ include("includes/db.php");
 					<span class="login100-form-title">
 						Member Login
 					</span>
-
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+					<div class="wrap-input100" >  <!-- data-validate = "Valid email is required: ex@abc.xyz"  Removed since it doesn't allow to go signup page-->
 						<input class="input100" type="text" name="loginemail" id="loginemail" placeholder="Email">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
@@ -48,7 +47,7 @@ include("includes/db.php");
 						</span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+					<div class="wrap-input100">
 						<input class="input100" type="password" name="loginpass" id="loginpass" placeholder="Password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
@@ -68,7 +67,7 @@ include("includes/db.php");
 						</a>
 					</div>
 
-					<div class="text-center p-t-80">
+					<div class="text-center p-t-140">
 
 					<button class="txt2	" href="#" type="submit" name="signUp">
 						Create your Account
@@ -88,21 +87,19 @@ include("includes/db.php");
             {
                 $email= $_POST['loginemail'];
                 $pass = $_POST['loginpass'];
-                $sel_c="select * from customers where c_password='$pass' AND c_mail='$email'";
-                $run_c=mysqli_query($conn,$sel_c);
-                $check_customer=mysqli_num_rows($run_c);
-                if($check_customer==0)
-                {
+                $sel_c = "select * from customers where c_password='$pass' AND c_mail='$email'";
+                $run_c = mysqli_query($conn,$sel_c);
+				$check_customer = mysqli_num_rows($run_c);
+				
+                if($check_customer == 0)
                     echo "<script>alert('Password or Username is incorrect')</script>";
-                    
-                }
 
-                else{
-                        $_SESSION['email']=$email;
-                        echo "<script>alert('Login Successful')</script>";
-                        echo "<script>window.open('index.php','_self')</script>";
-        
-                    }
+				else
+				{
+					$_SESSION['email'] = $email;
+					echo "<script>alert('Login Successful')</script>";
+					echo "<script>window.open('index.php','_self')</script>";
+                }
     
 			}
 
