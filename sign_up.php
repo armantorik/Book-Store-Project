@@ -6,7 +6,7 @@ include("includes/db.php");
 ?>
 <html lang="en">
 <head>
-	<title>Login</title>
+	<title>Create Account</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -85,29 +85,44 @@ include("includes/db.php");
 
  
     <?php
-    //login
+    //Sign Up
             if(isset($_POST['login']))
             {
+
                 $email= $_POST['loginemail'];
                 $pass = $_POST['loginpass'];
-                $sel_c="select * from customers where c_password='$pass' AND c_mail='$email'";
-                $run_c=mysqli_query($conn,$sel_c);
-                $check_customer=mysqli_num_rows($run_c);
-                if($check_customer==0)
+                $name = $_POST['name'];
+                $phone = $_POST['phone'];
+                $adress = $_POST['adress'];
+
+                if (!$mysqli -> query("INSERT INTO `customers`(`c_name`, `c_mail`, `c_password`, `c_phone`, `c_address`) VALUES ('$cname','$maill', '$password', '$phone', '$address')")
                 {
-                    echo "<script>alert('Password or Username is incorrect')</script>";
-                    
+                    echo("Error description: " . $mysqli -> error);
                 }
 
-                else{
-                        $_SESSION['email']=$email;
-                        echo "<script>alert('Login Successful')</script>";
-                        echo "<script>window.open('index.php','_self')</script>";
+                if($addCustQuery == 0)
+                
+                // $email= $_POST['loginemail'];
+                // $pass = $_POST['loginpass'];
+                // $sel_c="select * from customers where c_password='$pass' AND c_mail='$email'";
+                // $run_c=mysqli_query($conn,$sel_c);
+                // $check_customer=mysqli_num_rows($run_c);
+                // if($check_customer==0)
+                // {
+                //     echo "<script>alert('Password or Username is incorrect')</script>";
+                    
+                // }
+
+                // else{
+                //         $_SESSION['email']=$email;
+                //         echo "<script>alert('Login Successful')</script>";
+                //         echo "<script>window.open('index.php','_self')</script>";
         
-                    }
+                //     }
     
 			}
     ?>	
+
     
 <!--===============================================================================================-->	
 	<script src="Login_v1/vendor/jquery/jquery-3.2.1.min.js"></script>

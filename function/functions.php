@@ -19,6 +19,9 @@ function getIpAdd()
     return $ip;
 }
 
+
+
+
 function cart(){
     if(isset($_GET['add_cart']))
     {
@@ -42,7 +45,15 @@ function cart(){
 }
 function total_items(){
   global $conn;
-  $maill = $_SESSION['email'];
+  if(isset($_SESSION['email']))
+  {
+    $maill = $_SESSION['email']; 
+  }
+
+  else
+  {
+    $_SESSION['gid'] = ;
+  }
     if(isset($_GET['add_cart']))
     {
         $get_items="SELECT * FROM `basket` WHERE `customer_mail`='$maill'";
@@ -50,7 +61,6 @@ function total_items(){
         $count = mysqli_num_rows($run);
     }
     else {
-     
         $get_items="SELECT * FROM `basket` WHERE `customer_mail`='$maill'";
         $run=mysqli_query($conn, $get_items);
         $count = mysqli_num_rows($run);
@@ -123,45 +133,46 @@ function getauths(){
 
 function getbooks(){
 	global $conn;
-    if(!isset($_GET['category'])){
-	$query="SELECT * from products";
-	$result=mysqli_query($conn, $query);
-	while($row=mysqli_fetch_array($result))
-	{
-		echo "<div class='col-lg-4 col-md-6'>
-                            <div class='card'>
-                                <img class='card-img' height='200px' width='100px' src='assets/images/".$row['image']."'>
-                                <span class='content-card'>
-                                    <h6>".$row['name']."</h6>
-                                    <h7>".$row['author']."</h7>
-                                </span>
-                                <a href='index.php?add_cart=".$row['pid']."'><button class='buybtn btn btn-warning btn-round btn-sm'>
-	 								Add <i class='material-icons'>add_shopping_cart</i>
-								</button></a>
-                                <button class='knowbtn btn btn-warning btn-round btn-sm' data-toggle='modal' data-target='#".$row['pid']."'>
-	 								Know More
-								</button>";
-                                
-           //code for modal
-        echo "<div class='modal fade' id='".$row['pid']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-                  <div class='modal-dialog'>
-                    <div class='modal-content'>
-                      <div class='modal-header'>
-                        <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-                        <h4 class='modal-title' id='myModalLabel'>".$row['name']."</h4>
+  if(!isset($_GET['category']))
+  {
+    $query="SELECT * from products";
+    $result=mysqli_query($conn, $query);
+    while($row=mysqli_fetch_array($result))
+    {
+      echo "<div class='col-lg-4 col-md-6'>
+                              <div class='card'>
+                                  <img class='card-img' height='200px' width='100px' src='assets/images/".$row['image']."'>
+                                  <span class='content-card'>
+                                      <h6>".$row['name']."</h6>
+                                      <h7>".$row['author']."</h7>
+                                  </span>
+                                  <a href='index.php?add_cart=".$row['pid']."'><button class='buybtn btn btn-warning btn-round btn-sm'>
+                    Add <i class='material-icons'>add_shopping_cart</i>
+                  </button></a>
+                                  <button class='knowbtn btn btn-warning btn-round btn-sm' data-toggle='modal' data-target='#".$row['pid']."'>
+                    Know More
+                  </button>";
+                                  
+            //code for modal
+          echo "<div class='modal fade' id='".$row['pid']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+                    <div class='modal-dialog'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                          <h4 class='modal-title' id='myModalLabel'>".$row['name']."</h4>
+                        </div>
+                        <div class='modal-body'>
+                        <h4><p align='right'>&#8377;".$row['price']."</p></h4>".
+                            $row['info']
+                        ."</div>
+                      
                       </div>
-                      <div class='modal-body'>
-                      <h4><p align='right'>&#8377;".$row['price']."</p></h4>".
-                          $row['info']
-                      ."</div>
-                     
                     </div>
                   </div>
+                                  
                 </div>
-                                
-							</div>
-                        </div>";    //the last two </div> are from previous echo.
-	}
+                          </div>";    //the last two </div> are from previous echo.
+    }
     }
 }
 
