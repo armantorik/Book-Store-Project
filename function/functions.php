@@ -248,4 +248,26 @@ function get_bycat(){
     }
   }
 
+
+  function getProfile()
+  {
+    global $conn;
+    $maill = $_SESSION['email'];
+    $localpass = $_SESSION['password'];
+    $localname = $_SESSION['name'];
+    $localphone = $_SESSION['phone'];
+    $localaddress = $_SESSION['address'];
+    echo "
+    <div class='.container-md'>
+    <img align='middle' width='200p' src='assets/images/pp.png'>
+
+            <h3><p align='middle'>$localname</p></h4>
+            <h5><p align='middle'>Mail:  $maill</p></h5> 
+            <h5><p align='middle'>Password: $localpass</p></h5>
+            <h5><p align='middle'>Phone Number: $localphone</p></h5>
+            <h5><p align='middle'>Adress: $localaddress</p></h5>
+  </div> ";
+    
+  }
+  
 ?>

@@ -63,13 +63,7 @@ include("includes/db.php");
                         </button>
 					</div>
 
-					<div class="text-center p-t-12">
-						<span class="login100-form-btn">
-							Forgot Username / Password?
-						</a>
-					</div>
-
-					<div class="text-center p-t-140">
+					<div class="text-center p-t-200">
 
 					<button class="txt2	" href="#" type="submit" name="signUp">
 						Create your Account
@@ -99,13 +93,14 @@ include("includes/db.php");
 				else
 				{
 					$_SESSION['email'] = $email;
-					$toRun = "SELECT c_name, c_phone, c_address  FROM customers where c_password='$pass' AND c_mail='$email'";
+					$toRun = "SELECT c_name, c_phone, c_address, c_password  FROM customers where c_password='$pass' AND c_mail='$email'";
 					$results = mysqli_query($conn, $toRun);
 					while($row = mysqli_fetch_row($results))
 					{
 						$_SESSION['name'] = $row[0];
 						$_SESSION['phone'] = $row[1];
 						$_SESSION['address'] = $row[2];
+						$_SESSION['password'] = $row[2];
 					}
 					
 					echo "<script>alert('Login Successful')</script>";
