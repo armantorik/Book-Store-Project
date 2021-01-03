@@ -119,14 +119,14 @@ function mycart()
                 <td><img src='assets/images/".$bk['image']."' width='60px' height='80px'></td>
                 <td><h3>".$bk_title."</h3></td>
                 <td><h3>1</h3></td>
-                <td><h3>&#8377;".$single_price."</h3></td>
+                <td><h3>&#8378;".$single_price."</h3></td>
                 
                
                 
             </tr>";
     
   }
-    echo "<tr><td colspan='6' align='right'><h3>Total=&#8377;".$total_price."</h3></td></tr>" ;
+    echo "<tr><td colspan='6' align='right'><h3>Total=&#8378;".$total_price."</h3></td></tr>" ;
   
 }
 

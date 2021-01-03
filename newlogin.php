@@ -6,6 +6,7 @@ include("includes/db.php");
 ?>
 <html lang="en">
 <head>
+
 	<title>Login</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,12 +28,13 @@ include("includes/db.php");
 <!--===============================================================================================-->
 </head>
 <body>
-	
+
+ 
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
-					<img src="Login_v1/images/img-01.png" alt="IMG">
+					<img src="Login_v1/images/bookImg.jpg" alt="IMG">
 				</div>
 
 				<form class="login100-form validate-form" action="newlogin.php" method="post" >
@@ -97,10 +99,21 @@ include("includes/db.php");
 				else
 				{
 					$_SESSION['email'] = $email;
+					$toRun = "SELECT c_name, c_phone, c_address  FROM customers where c_password='$pass' AND c_mail='$email'";
+					$results = mysqli_query($conn, $toRun);
+					while($row = mysqli_fetch_row($results))
+					{
+						$_SESSION['name'] = $row[0];
+						$_SESSION['phone'] = $row[1];
+						$_SESSION['address'] = $row[2];
+					}
+					
 					echo "<script>alert('Login Successful')</script>";
 					echo "<script>window.open('index.php','_self')</script>";
+					
+
+					
                 }
-    
 			}
 
 			else if(isset($_POST['signUp']))

@@ -46,11 +46,8 @@ include("function/functions.php");
                     <?php 
                                       
                     
-                    if(isset($_SESSION['email']))
-                    {
-                        $sess=$_SESSION['email'];
-                        echo "<li><a>Hi ".$_SESSION['email']." !</a></li>";   
-                    }
+                    if(isset($_SESSION['name']))
+                        echo "<li><a>Hi ".$_SESSION['name']." !</a></li>";   
                     else
                         echo "<li><a>Hi, Guest</a></li>";
 
@@ -98,8 +95,6 @@ include("function/functions.php");
             </div>
             <div class="col-lg-10 col-md-10" id="mainarea">
 
-
-
                 <div class="container-fluid">
                     <?php cart(); ?>
                     <!-- Adding books -->
@@ -109,10 +104,7 @@ include("function/functions.php");
 
 
                     </div>
-
-
                 </div>
-
             </div>
         </div>
     </div>
