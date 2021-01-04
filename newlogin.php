@@ -91,11 +91,16 @@ include("includes/db.php");
             {
                 $email= $_POST['loginemail'];
 				$pass = $_POST['loginpass'];
+
+				$pmusername = $_POST['loginemail'];
 				$pmpass = $_POST['loginpass'];
+				
 				$smusername= $_POST['loginemail'];
 				$smpass = $_POST['loginpass'];
-                $sel_c = "select * from customers where c_password='$pass' AND c_mail='$email'";
+				
+				$sel_c = "select * from customers where c_password='$pass' AND c_mail='$email'";
                 $run_c = mysqli_query($conn,$sel_c);
+				
 				$check_customer = mysqli_num_rows($run_c);
 				
 				if($check_customer == 0)
@@ -103,14 +108,29 @@ include("includes/db.php");
 					$sel_pm = "select * from product_manager where pm_password='$pmpass' AND pm_username='$pmusername'";
 						$run_pm = mysqli_query($conn,$sel_pm);
 						$check_pm = mysqli_num_rows($run_pm);
+						
 						if($check_pm ==0)
 						{
 							$sel_sm = "select * from sales_manager where sm_password='$smpass' AND sm_username='$smusername'";
 							$run_sm = mysqli_query($conn,$sel_sm);
 							$check_sm = mysqli_num_rows($run_sm);
+							
+							//If not sm
 							if($check_sm ==0) 
 								echo "<script>alert('Password or Username is incorrect')</script>";
+							else // if sm
+							{
+								echo "<script>alert('Welcome Sales Manager')</script>";
+								echo "<script>window.open('sm.php','_self')</script>";
+							}
+
 						}
+						else
+						{
+							echo "<script>alert('Welcome Product Manager')</script>";
+							echo "<script>window.open('pm.php','_self')</script>";
+						}
+							
 				}
 
 				else
