@@ -55,6 +55,21 @@ include("function/functions.php");
                         {
                             echo "<li><a>Hi, Guest</a></li>";
                             echo "<li><a href='newlogin.php'>Login</a></li>";
+                          
+                            if(!isset($_SESSION['gid']))
+                            {
+                                $newGuest="INSERT INTO `guests` VALUES()";
+                                $run = mysqli_query($conn, $newGuest);
+                                $lastElmnt = "SELECT `g_id` FROM `guests` ORDER BY `g_id` DESC LIMIT 1";
+                                $queryIt = mysqli_query($conn, $lastElmnt);
+                                while($gid = mysqli_fetch_row($queryIt)) 
+                                {
+                                    $_SESSION['gid'] = $gid[0];
+                                }
+                                
+                            }
+                                
+                    
                         }         
                     ?>
 
@@ -79,8 +94,7 @@ include("function/functions.php");
 
     <!-- end navbar -->
 
-
-
+    
 
     <div class="container-fluid">
 

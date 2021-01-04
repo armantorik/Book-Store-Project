@@ -63,7 +63,15 @@ include("includes/db.php");
                         </button>
 					</div>
 
-					<div class="text-center p-t-200">
+					<div class="text-center p-t-190">
+
+					<button class="txt2	" href="#" type="submit" name="goguest">
+						Shop without signing in!
+						<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                    </button>
+					</div>
+
+					<div class="text-center p-t-10">
 
 					<button class="txt2	" href="#" type="submit" name="signUp">
 						Create your Account
@@ -100,7 +108,7 @@ include("includes/db.php");
 						$_SESSION['name'] = $row[0];
 						$_SESSION['phone'] = $row[1];
 						$_SESSION['address'] = $row[2];
-						$_SESSION['password'] = $row[2];
+						$_SESSION['password'] = $row[3];
 					}
 					
 					echo "<script>alert('Login Successful')</script>";
@@ -113,6 +121,10 @@ include("includes/db.php");
 
 			else if(isset($_POST['signUp']))
 				echo "<script>window.open('sign_up.php','_self')</script>";
+
+			else if(isset($_POST['goguest']))
+				echo "<script>window.open('index.php','_self')</script>";
+				
     ?>	
     
 <!--===============================================================================================-->	

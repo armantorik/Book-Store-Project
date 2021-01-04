@@ -25,11 +25,19 @@ function getIpAdd()
 function cart(){
     if(isset($_GET['add_cart']))
     {
+        if(isset($_SESSION['gid']))
+          $gid = $_SESSION['gid'];
+        else
+          $maill = $_SESSION['email'];
         global $conn;
         $ip=getIpAdd();
-        $maill = $_SESSION['email'];
+        
         $book_id = $_GET['add_cart'];
-        $check_product = "SELECT `book_id`, `quantity` FROM `basket` WHERE  book_id='$book_id' AND customer_mail='$maill'";
+        if(isset($_SESSION['name']))
+          $check_product = "SELECT `book_id`, `quantity` FROM `basket` WHERE  book_id='$book_id' AND customer_mail='$maill'";
+        else
+          $check_product = "SELECT `book_id`, `quantity` FROM `basket` WHERE  book_id='$book_id' AND customer_mail='$gid'";
+          
         $run_check = mysqli_query($conn, $check_product);
         if(mysqli_num_rows($run_check)>0)
         {
@@ -52,30 +60,25 @@ function total_items(){
   global $conn;
   if(isset($_SESSION['email']))
     $maill = $_SESSION['email']; 
-
   else
-  {
-    $newGuest="INSERT INTO `guests` DEFAULT VALUES";
-    $run = mysqli_query($conn, $newGuest);
+    $gid = $_SESSION['gid'];
 
-    $lastElmnt = "SELECT `g_id` FROM `guests`  WHERE 1 = 1 ORDER BY `g_id` DESC LIMIT 1";
-    $queryIt = mysqli_query($conn, $lastElmnt);
-    while($gid = mysqli_fetch_row($queryIt)) {}
-    $_SESSION['gid'] = $gid[0];
-
-  }
     if(isset($_GET['add_cart']))
     {
+      if(isset($_SESSION['email']))
         $get_items="SELECT * FROM `basket` WHERE `customer_mail`='$maill'";
-        $run = mysqli_query($conn, $get_items);
-        $count = mysqli_num_rows($run);
+      else
+        $get_items="SELECT * FROM `basket` WHERE `customer_mail`='$gid'";
+      
+      $run = mysqli_query($conn, $get_items);
+      $count = mysqli_num_rows($run);
     }
     else 
     {
         if(isset($_SESSION['email']))
           $get_items = "SELECT * FROM `basket` WHERE `customer_mail` = '$maill'";
         else
-          $get_items = "SELECT * FROM `basket` WHERE `customer_mail` = '$gid[0]'";
+          $get_items = "SELECT * FROM `basket` WHERE `customer_mail` = '$gid'";
           
         $run = mysqli_query($conn, $get_items);
         $count = mysqli_num_rows($run);
@@ -90,12 +93,14 @@ function mycart()
 
   if(isset($_SESSION['email']))
     $maill = $_SESSION['email'];
-  
+  else 
+    $gid = $_SESSION['gid'];
+
     $count = 1;
   if(isset($_SESSION['email']))
     $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$maill')";
   else
-    $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$gid[0]')";
+    $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$gid')";
   $cart_items = mysqli_query($conn,$get_cart);
   $total_price =0;    
   while($bk = mysqli_fetch_array($cart_items)){
@@ -199,18 +204,20 @@ function getbooks(){
 }
 
 
-function get_bycat(){
+function get_bycat()
+{
   global $conn;
-  if(isset($_GET['category'])){
+  if(isset($_GET['category']))
+  {
     $cat_id= $_GET['category'];
     $get_cat_pro = "SELECT * FROM products WHERE category = '$cat_id'";
     $run_cat_pro=mysqli_query($conn,$get_cat_pro);
     $count_cat = mysqli_num_rows($run_cat_pro);
-    if($count_cat==0){
+    if($count_cat==0)
       echo "<h2>No books found</h2>";
-    }
+
     while($row=mysqli_fetch_array($run_cat_pro))
-  {
+    {
     echo "<div class='col-lg-4 col-md-6'>
                             <div class='card'>
                                 <img class='card-img' height='200px' width='100px' src='assets/images/".$row['image']."'>
@@ -244,30 +251,7 @@ function get_bycat(){
                                 
               </div>
                         </div>";    //the last two </div> are from previous echo.
-  }
+      }
     }
   }
-
-
-  function getProfile()
-  {
-    global $conn;
-    $maill = $_SESSION['email'];
-    $localpass = $_SESSION['password'];
-    $localname = $_SESSION['name'];
-    $localphone = $_SESSION['phone'];
-    $localaddress = $_SESSION['address'];
-    echo "
-    <div class='.container-md'>
-    <img align='middle' width='200p' src='assets/images/pp.png'>
-
-            <h3><p align='middle'>$localname</p></h4>
-            <h5><p align='middle'>Mail:  $maill</p></h5> 
-            <h5><p align='middle'>Password: $localpass</p></h5>
-            <h5><p align='middle'>Phone Number: $localphone</p></h5>
-            <h5><p align='middle'>Adress: $localaddress</p></h5>
-  </div> ";
-    
-  }
-  
 ?>
