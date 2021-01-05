@@ -35,14 +35,21 @@ function cart(){
         
         $book_id = $_GET['add_cart'];
         if(isset($_SESSION['email']))
-          $check_product = "SELECT `book_id`, `quantity` FROM `basket` WHERE  book_id='$book_id' AND customer_mail='$maill'";
+          $check_product = "SELECT `book_id`, `quantity` FROM `basket` WHERE  book_id='$book_id' AND customer_mail ='$maill'";
         else
-          $check_product = "SELECT `book_id`, `quantity` FROM `basket` WHERE  book_id='$book_id' AND customer_mail='$gid'";
+          $check_product = "SELECT `book_id`, `quantity` FROM `basket` WHERE  book_id='$book_id' AND customer_mail ='$gid'";
           
         $run_check = mysqli_query($conn, $check_product);
+
         if(mysqli_num_rows($run_check)>0)
         {
-          //echo "Already added";
+          if(isset($_SESSION['email']))
+            $addMore = "UPDATE `basket` SET `quantity` = `quantity` + 1 WHERE book_id='$book_id' AND customer_mail='$maill'";
+          else
+            $addMore = "UPDATE `basket` SET `quantity` = `quantity` + 1 WHERE book_id='$book_id' AND customer_mail='$gid'";
+
+          $run_cart = mysqli_query($conn, $addMore);
+          echo "<script>window.open('index.php','_self')</script>";
         }
         else 
         {
@@ -52,7 +59,6 @@ function cart(){
             $insert_cart = "INSERT INTO `basket`(`book_id`, `customer_mail`) VALUES ('$book_id', '$gid')";
 
           $run_cart = mysqli_query($conn, $insert_cart);
-          echo "added";
           echo "<script>window.open('index.php','_self')</script>";
         }
     }
@@ -102,15 +108,33 @@ function mycart()
     $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$maill')";
   else
     $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$gid')";
-  $cart_items = mysqli_query($conn,$get_cart);
+
+  $cart_items = mysqli_query($conn, $get_cart);
   $total_price =0;    
   while($bk = mysqli_fetch_array($cart_items)){
     $price_arr = array($bk['price']);
     //$total_price = array_sum($price_arr);
     $single_price = $bk['price'];
-    $total_price += $single_price;  
+    
     $bk_title = $bk['name'];
-    echo "<tr>
+    $bk_id = $bk['pid'];
+
+    if(isset($_SESSION['email']))
+      $getQuantity = "SELECT `quantity` FROM `basket` WHERE `customer_mail` = '$maill' AND `book_id` = '$bk_id'";
+    else
+      $getQuantity = "SELECT `quantity` FROM `basket` WHERE `customer_mail` = '$gid' AND `book_id` = '$bk_id'";
+
+      $quantityArr = mysqli_query($conn, $getQuantity);
+
+      if (mysqli_num_rows($quantityArr) > 0) 
+        while($row = mysqli_fetch_array($quantityArr))
+            $quantity = $row[0];
+
+      else
+        $quantity = $quantityArr;
+      
+      $total_price += $single_price * $quantity;  
+      echo "<tr>
                 <td scope='row'><h3>".$count++."</h3></td>
                  <td scope='row' class='td-actions'>
                    
@@ -124,15 +148,15 @@ function mycart()
                 </td>
                 <td><img src='assets/images/".$bk['image']."' width='60px' height='80px'></td>
                 <td><h3>".$bk_title."</h3></td>
-                <td><h3>1</h3></td>
+                <td><h3>$quantity</h3></td>
                 <td><h3>&#8378;".$single_price."</h3></td>
+                <td><h3>&#8378;".$quantity * $single_price."</h3></td>
                 
                
-                
             </tr>";
     
   }
-    echo "<tr><td colspan='6' align='right'><h3>Total=&#8378;".$total_price."</h3></td></tr>" ;
+    echo "<tr><td colspan='7' align='right'><h3>Total=&#8378;".$total_price."</h3></td></tr>" ;
   
 }
 

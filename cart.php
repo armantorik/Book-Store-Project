@@ -85,12 +85,14 @@ include("function/functions.php");
                 <tr>
                     <th>#</th>
                     <th>Remove</th>
+
                     <th colspan="2">Product </th>
 
-                    
                     <th>Quantity</th>
                     
                     <th>Price</th>
+
+                    <th>Total Price</th>
                 </tr>
             </thead>
             <tbody>
@@ -125,10 +127,22 @@ include("function/functions.php");
             foreach($_POST['remove'] as $remove_id)
             {
                 if(isset($_SESSION['email']))
-                    $delete_books = "delete from basket where book_id = '$remove_id' AND customer_mail = '$maill'";
+                {
+                    $quantity0 =  "SELECT quantity from basket where book_id = '$remove_id' AND customer_mail = '$maill'";
+                    if($quantity0 == 1)
+                        $deleteOrdec = "DELETE from basket where book_id = '$remove_id' AND customer_mail = '$maill'";
+                    else
+                        $deleteOrdec = "UPDATE `basket` SET `quantity` = `quantity` -1 WHERE book_id='$remove_id' AND customer_mail='$maill'";
+                    
+                    $run_delete = mysqli_query($conn, $deleteOrdec);
+                }
+                    
                 else
-                    $delete_books = "delete from basket where book_id = '$remove_id' AND customer_mail = '$gid'";
-                $run_delete = mysqli_query($conn, $delete_books);
+                {
+                    $delete_books = "DELETE from basket where book_id = '$remove_id' AND customer_mail = '$gid'";
+                    $run_delete = mysqli_query($conn, $delete_books);
+                }
+                
                 if($run_delete)
                     echo "<script>window.open('cart.php','_self');</script>";
             }
