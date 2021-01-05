@@ -41,7 +41,7 @@ function cart(){
           
         $run_check = mysqli_query($conn, $check_product);
 
-        if(mysqli_num_rows($run_check)>0)
+        if(mysqli_num_rows($run_check) > 0)
         {
           if(isset($_SESSION['email']))
             $addMore = "UPDATE `basket` SET `quantity` = `quantity` + 1 WHERE book_id='$book_id' AND customer_mail='$maill'";
@@ -54,9 +54,9 @@ function cart(){
         else 
         {
           if(isset($_SESSION['email']))
-            $insert_cart = "INSERT INTO `basket`(`book_id`, `customer_mail`) VALUES ('$book_id', '$maill')";
+            $insert_cart = "INSERT INTO `basket`(`book_id`, `quantity`, `customer_mail`) VALUES ('$book_id', 1, '$maill')";
           else
-            $insert_cart = "INSERT INTO `basket`(`book_id`, `customer_mail`) VALUES ('$book_id', '$gid')";
+            $insert_cart = "INSERT INTO `basket`(`book_id`, `quantity`, `customer_mail`) VALUES ('$book_id', 1, '$gid')";
 
           $run_cart = mysqli_query($conn, $insert_cart);
           echo "<script>window.open('index.php','_self')</script>";
@@ -65,31 +65,23 @@ function cart(){
 }
 function total_items(){
   global $conn;
+  $count = 0;
   if(isset($_SESSION['email']))
+  {
     $maill = $_SESSION['email']; 
+    $get_items = "SELECT * FROM `basket` WHERE `customer_mail` = '$maill'";
+    
+  }
   else
+  {
     $gid = $_SESSION['gid'];
+    $get_items = "SELECT * FROM `basket` WHERE `customer_mail` = '$gid'";
 
-    if(isset($_GET['add_cart']))
-    {
-      if(isset($_SESSION['email']))
-        $get_items="SELECT * FROM `basket` WHERE `customer_mail`='$maill'";
-      else
-        $get_items="SELECT * FROM `basket` WHERE `customer_mail`='$gid'";
-      
-      $run = mysqli_query($conn, $get_items);
-      $count = mysqli_num_rows($run);
-    }
-    else 
-    {
-        if(isset($_SESSION['email']))
-          $get_items = "SELECT * FROM `basket` WHERE `customer_mail` = '$maill'";
-        else
-          $get_items = "SELECT * FROM `basket` WHERE `customer_mail` = '$gid'";
-          
-        $run = mysqli_query($conn, $get_items);
-        $count = mysqli_num_rows($run);
-    }
+  }
+  $run = mysqli_query($conn, $get_items);
+  while($row = mysqli_fetch_array($run))
+      $count+= $row['quantity'];
+
     echo $count;
 }
 
@@ -110,7 +102,7 @@ function mycart()
     $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$gid')";
 
   $cart_items = mysqli_query($conn, $get_cart);
-  $total_price =0;    
+  $total_price = 0;    
   while($bk = mysqli_fetch_array($cart_items)){
     $price_arr = array($bk['price']);
     //$total_price = array_sum($price_arr);
@@ -279,4 +271,11 @@ function get_bycat()
       }
     }
   }
+
+
+function rmZeros()
+{
+  global $conn;
+  mysqli_query($conn, "DELETE FROM `BASKET` WHERE `QUANTITY` <= 0");
+}
 ?>

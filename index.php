@@ -63,18 +63,13 @@ include("function/functions.php");
                                 $lastElmnt = "SELECT `g_id` FROM `guests` ORDER BY `g_id` DESC LIMIT 1";
                                 $queryIt = mysqli_query($conn, $lastElmnt);
                                 while($gid = mysqli_fetch_row($queryIt)) 
-                                {
-                                    $_SESSION['gid'] = $gid[0];
-                                }
-                                
+                                    $_SESSION['gid'] = $gid[0];   
+
                             }
-                                
-                    
                         }         
                     ?>
 
                     <li><a href="cart.php">Go to Cart<span class="badge"><?php total_items(); ?></span></a></li>
-
                 </ul>
                 <form action="results.php" method="get" class="navbar-form navbar-right">
                     <div class="form-group label-floating">
@@ -83,17 +78,12 @@ include("function/functions.php");
                     </div>
                     <button type="submit" name="search" class="btn btn-round btn-just-icon btn-primary"><i class="material-icons">search</i><div class="ripple-container"></div></button>
                 </form>
-
-
             </div>
-
         </div>
     </nav>
 
 
-
     <!-- end navbar -->
-
     
 
     <div class="container-fluid">
@@ -107,22 +97,17 @@ include("function/functions.php");
                 </ul>
             </div>
             <div class="col-lg-10 col-md-10" id="mainarea">
-
                 <div class="container-fluid">
                     <?php cart(); ?>
                     <!-- Adding books -->
                     <div class="row">
                         <?php getbooks();?>
                         <?php get_bycat();?>
-
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 </body>
 
 <!--   Core JS Files   -->

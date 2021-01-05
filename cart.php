@@ -127,22 +127,12 @@ include("function/functions.php");
             foreach($_POST['remove'] as $remove_id)
             {
                 if(isset($_SESSION['email']))
-                {
-                    $quantity0 =  "SELECT quantity from basket where book_id = '$remove_id' AND customer_mail = '$maill'";
-                    if($quantity0 == 1)
-                        $deleteOrdec = "DELETE from basket where book_id = '$remove_id' AND customer_mail = '$maill'";
-                    else
-                        $deleteOrdec = "UPDATE `basket` SET `quantity` = `quantity` -1 WHERE book_id='$remove_id' AND customer_mail='$maill'";
-                    
-                    $run_delete = mysqli_query($conn, $deleteOrdec);
-                }
-                    
+                    $deleteOrdec = "UPDATE `basket` SET `quantity` = `quantity` - 1 WHERE `book_id` = '$remove_id' AND `customer_mail` = '$maill'";         
                 else
-                {
-                    $delete_books = "DELETE from basket where book_id = '$remove_id' AND customer_mail = '$gid'";
-                    $run_delete = mysqli_query($conn, $delete_books);
-                }
+                    $deleteOrdec = "UPDATE `basket` SET `quantity` = `quantity` - 1 WHERE `book_id` = '$remove_id' AND `customer_mail` = '$gid'";
                 
+                $run_delete = mysqli_query($conn, $deleteOrdec);
+                rmZeros();
                 if($run_delete)
                     echo "<script>window.open('cart.php','_self');</script>";
             }
