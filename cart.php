@@ -138,7 +138,6 @@ include("function/functions.php");
 
     <div class="container" align="right" ><h3> <a  style="text-decoration:none " href="checkout.php">checkout </a></h3>
           </div>
-
 </body>
 
 <!--   Core JS Files   -->

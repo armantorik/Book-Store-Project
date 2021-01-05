@@ -25,15 +25,16 @@ function getIpAdd()
 function cart(){
     if(isset($_GET['add_cart']))
     {
-        if(isset($_SESSION['gid']))
-          $gid = $_SESSION['gid'];
-        else
+        if(isset($_SESSION['email']))
           $maill = $_SESSION['email'];
+        else
+          $gid = $_SESSION['gid'];
+          
         global $conn;
         $ip=getIpAdd();
         
         $book_id = $_GET['add_cart'];
-        if(isset($_SESSION['name']))
+        if(isset($_SESSION['email']))
           $check_product = "SELECT `book_id`, `quantity` FROM `basket` WHERE  book_id='$book_id' AND customer_mail='$maill'";
         else
           $check_product = "SELECT `book_id`, `quantity` FROM `basket` WHERE  book_id='$book_id' AND customer_mail='$gid'";
@@ -189,7 +190,7 @@ function getbooks(){
                           <h4 class='modal-title' id='myModalLabel'>".$row['name']."</h4>
                         </div>
                         <div class='modal-body'>
-                        <h4><p align='right'>&#8377;".$row['price']."</p></h4>".
+                        <h4><p align='right'>&#8378;".$row['price']."</p></h4>".
                             $row['info']
                         ."</div>
                       

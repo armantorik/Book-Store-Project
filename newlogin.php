@@ -109,14 +109,14 @@ include("includes/db.php");
 						$run_pm = mysqli_query($conn,$sel_pm);
 						$check_pm = mysqli_num_rows($run_pm);
 						
-						if($check_pm ==0)
+						if($check_pm == 0)
 						{
 							$sel_sm = "select * from sales_manager where sm_password='$smpass' AND sm_username='$smusername'";
 							$run_sm = mysqli_query($conn,$sel_sm);
 							$check_sm = mysqli_num_rows($run_sm);
 							
 							//If not sm
-							if($check_sm ==0) 
+							if($check_sm == 0) 
 								echo "<script>alert('Password or Username is incorrect')</script>";
 							else // if sm
 							{
