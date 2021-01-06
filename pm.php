@@ -54,8 +54,8 @@ include("function/functions.php");
                         
                                                      
                     ?>
-
-                    <li><a href="cart.php">ADD BOOKS<span class="badge"></span></a></li>
+                    <li><a href="editBooks.php">EDIT BOOKS<span></span></a></li>
+                    <li><a href="addBooks.php">ADD BOOKS<span></span></a></li>
                 </ul>
                 <form action="results.php" method="get" class="navbar-form navbar-right">
                     <div class="form-group label-floating">
@@ -75,31 +75,16 @@ include("function/functions.php");
 
     <!-- end navbar -->
 
-    
-
     <div class="container-fluid">
-
         <div class="row">
-            <div class="col-lg-2 col-md-2" id="myScrollspy">
-                <ul data-offset-top="225" data-spy="affix" class="nav nav-pills  nav-stacked">
-                    <li role="presentation"><a href="pm.php">All books</a></li>
-                    <?php getcats();?>
-
-                </ul>
-            </div>
-            <div class="col-lg-10 col-md-10" id="mainarea">
-
                 <div class="container-fluid">
-                    <?php cart(); ?>
                     <!-- Adding books -->
                     <div class="row">
                         <?php edit_pm();?>
-                        <?php get_bycat();?>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
 </body>
