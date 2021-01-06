@@ -127,8 +127,10 @@ include("includes/db.php");
 						}
 						else
 						{
+							$_SESSION['pmusername'] = $pmusername;
 							echo "<script>alert('Welcome Product Manager')</script>";
 							echo "<script>window.open('pm.php','_self')</script>";
+							
 						}
 							
 				}
@@ -158,7 +160,11 @@ include("includes/db.php");
 				echo "<script>window.open('sign_up.php','_self')</script>";
 
 			else if(isset($_POST['goguest']))
+			{
 				echo "<script>window.open('index.php','_self')</script>";
+				session_destroy();
+			}
+				
 				
     ?>	
     

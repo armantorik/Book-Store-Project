@@ -68,7 +68,7 @@ img
     <div class='container'>
     <table class='table-striped table'>
         <thead class='thead-inverse'>
-        <img width='150p' src='assets/images/pp.png'>
+        <!-- <img width='150p' src='assets/images/pp.png'> -->
         <h3 class= 'modal-header'>Profile</h3>
             <tr>
                 <th>Info Fields:</th>
@@ -151,6 +151,32 @@ img
             </script>
         </div>
   
+    <div class='container'>
+    <table class='table-striped table'>
+        <thead class='thead-inverse'>
+        <!-- <img width='150p' src='assets/images/pp.png'> -->
+        <h3 class= 'modal-header'>Profile</h3>
+            <tr>
+                <th>Your Previous Orders:</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
 <?php
 
 $email = $_SESSION['email'];

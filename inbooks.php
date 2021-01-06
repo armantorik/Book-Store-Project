@@ -17,7 +17,6 @@ include("includes/db.php");
 	
 <body bgcolor="skyblue">
 
-
 	<form action="inbooks.php" method="post" enctype="multipart/form-data"> 
 		
 		<table align="center" width="795" border="2" bgcolor="#187eae">

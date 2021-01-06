@@ -1,5 +1,9 @@
 <!doctype html>
 <?php 
+
+// if(!isset($_SESSION['pmusername'])) it can redirect if not pm 
+//     header("Location: index.php");
+
 include("function/functions.php");
 ?>
 <html lang="en">
@@ -42,39 +46,16 @@ include("function/functions.php");
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="index.php">Home</a></li>
+                    <li class="active"><a href="pm.php">Home</a></li>
                     <?php 
-                                      
-                        if(isset($_SESSION['name']))
-                        {
-                            echo "<li><a href = 'Profile.php'>Hi ".$_SESSION['name']." !</a></li>"; 
-                             echo "<li><a href='logout.php'>Logout</a></li>"; 
-                        }
-                            
-                        else
-                        {
-                            echo "<li><a>Hi, Guest</a></li>";
-                            echo "<li><a href='newlogin.php'>Login</a></li>";
-                          
-                            if(!isset($_SESSION['gid']))
-                            {
-                                $newGuest="INSERT INTO `guests` VALUES()";
-                                $run = mysqli_query($conn, $newGuest);
-                                $lastElmnt = "SELECT `g_id` FROM `guests` ORDER BY `g_id` DESC LIMIT 1";
-                                $queryIt = mysqli_query($conn, $lastElmnt);
-                                while($gid = mysqli_fetch_row($queryIt)) 
-                                {
-                                    $_SESSION['gid'] = $gid[0];
-                                }
-                                
-                            }
-                                
-                    
-                        }         
+                                                    
+                            echo "<li><a>Hi PM ".$_SESSION['pmusername']." !</a></li>"; 
+                            echo "<li><a href='logout.php'>Logout</a></li>"; 
+                        
+                                                     
                     ?>
 
-                    <li><a href="cart.php">Go to Cart<span class="badge"><?php total_items(); ?></span></a></li>
-
+                    <li><a href="cart.php">ADD BOOKS<span class="badge"></span></a></li>
                 </ul>
                 <form action="results.php" method="get" class="navbar-form navbar-right">
                     <div class="form-group label-floating">
@@ -101,7 +82,7 @@ include("function/functions.php");
         <div class="row">
             <div class="col-lg-2 col-md-2" id="myScrollspy">
                 <ul data-offset-top="225" data-spy="affix" class="nav nav-pills  nav-stacked">
-                    <li role="presentation"><a href="index.php">All books</a></li>
+                    <li role="presentation"><a href="pm.php">All books</a></li>
                     <?php getcats();?>
 
                 </ul>
@@ -112,10 +93,8 @@ include("function/functions.php");
                     <?php cart(); ?>
                     <!-- Adding books -->
                     <div class="row">
-                        <?php getbooks();?>
+                        <?php edit_pm();?>
                         <?php get_bycat();?>
-
-
                     </div>
                 </div>
             </div>

@@ -42,7 +42,7 @@ include("function/functions.php");
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li ><a href="index.php">Home</a></li>
+                    <li ><a href="pm.php">Home</a></li>
                     <?php 
                     
                     if(isset($_SESSION['name']))
@@ -84,7 +84,8 @@ include("function/functions.php");
             <thead class="thead-inverse">
                 <tr>
                     <th>#</th>
-                    
+                    <th>Remove</th>
+
                     <th colspan="2">Product </th>
 
                     <th>Quantity</th>
@@ -95,78 +96,51 @@ include("function/functions.php");
                 </tr>
             </thead>
             <tbody>
+                <form action="cart.php" method="post">
+                <?php mycart(); ?>
 
-<?php
-  if(isset($_SESSION['email']))
-    $maill = $_SESSION['email'];
-  else 
-    $gid = $_SESSION['gid'];
+                <?php 
+    if(isset($_POST['update_cart']))
+    {
+        if(isset($_SESSION['email']))
+            $maill = $_SESSION['email'];
+        else
+            $gid = $_SESSION['gid'];
 
-    $count = 1;
-  if(isset($_SESSION['email']))
-    $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$maill')";
-  else
-    $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$gid')";
-
-  $cart_items = mysqli_query($conn, $get_cart);
-  $total_price = 0;    
-
-  while($bk = mysqli_fetch_array($cart_items))
-  {
-    $price_arr = array($bk['price']);
-    $single_price = $bk['price'];
-    
-    $bk_title = $bk['name'];
-    $bk_id = $bk['pid'];
-
-    if(isset($_SESSION['email']))
-      $getQuantity = "SELECT `quantity` FROM `basket` WHERE `customer_mail` = '$maill' AND `book_id` = '$bk_id'";
-    else
-      $getQuantity = "SELECT `quantity` FROM `basket` WHERE `customer_mail` = '$gid' AND `book_id` = '$bk_id'";
-
-      $quantityArr = mysqli_query($conn, $getQuantity);
-
-      if (mysqli_num_rows($quantityArr) > 0) 
-        while($row = mysqli_fetch_array($quantityArr))
-            $quantity = $row[0];
-
-      else
-        $quantity = $quantityArr;
-      
-      $total_price += $single_price * $quantity;  
-      echo "<tr>
-                <td scope='row'><h3>".$count++."</h3></td>
-                <td>
-                <img src='assets/images/".$bk['image']."' width='60px' height='80px'>
-                </td>
-                <td>
-                <h3>".$bk_title."</h3></td>
-                <td><h3>$quantity</h3></td>
-                <td><h3>&#8378;".$single_price."</h3></td>
-                <td><h3>&#8378;".$quantity * $single_price."</h3></td>
+        if(isset($_POST['remove']))   
+        {
+            foreach($_POST['remove'] as $remove_id)
+            {
+                if(isset($_SESSION['email']))
+                    $deleteOrdec = "UPDATE `basket` SET `quantity` = `quantity` - 1 WHERE `book_id` = '$remove_id' AND `customer_mail` = '$maill'";         
+                else
+                    $deleteOrdec = "UPDATE `basket` SET `quantity` = `quantity` - 1 WHERE `book_id` = '$remove_id' AND `customer_mail` = '$gid'";
                 
-               
-            </tr>";
-    
-  }
-    echo "<tr><td colspan='7' align='right'><h3>Total Price = &#8378;".$total_price."</h3></td></tr>" ;
-  
+                $run_delete = mysqli_query($conn, $deleteOrdec);
+                rmZeros();
+                if($run_delete)
+                    echo "<script>window.open('cart.php','_self');</script>";
+            }
+        }
+    }
+        ?>
+        
+        <div align="right">
+            <!--<button class="btn"><input type="submit" value="Update" name="update_cart"/></button>-->
+            <button name="update_cart" type="submit" class="btn btn-danger">Update</button>
+           <!--<input type="submit" name="update_cart" value="update">-->
+           
 
-?>      
-
+        </div>
+                </form>
    </tbody>
 
         </table>
       
     </div>
+ 
 
-
-
-
-
-
-
-    <div class="container" align="right" ><h3> <a  style="text-decoration:none " href="cart.php">Back to Cart</a></h3> </div>
+    <div class="container" align="right" ><h3> <a  style="text-decoration:none " href="checkout.php">checkout</a></h3> </div>
 </body>
 
 <!--   Core JS Files   -->

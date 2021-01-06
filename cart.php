@@ -92,29 +92,14 @@ include("function/functions.php");
                     
                     <th>Price</th>
 
-                    <th>Total Price</th>
+                    <th>Subtotal</th>
                 </tr>
             </thead>
             <tbody>
                 <form action="cart.php" method="post">
                 <?php mycart(); ?>
 
-         
-        
-        <div align="right">
-            <!--<button class="btn"><input type="submit" value="Update" name="update_cart"/></button>-->
-            <button name="update_cart" type="submit" class="btn btn-danger">Update</button>
-           <!--<input type="submit" name="update_cart" value="update">-->
-           
-
-        </div>
-                </form>
-   </tbody>
-
-        </table>
-      
-    </div>
-    <?php 
+                <?php 
     if(isset($_POST['update_cart']))
     {
         if(isset($_SESSION['email']))
@@ -139,9 +124,23 @@ include("function/functions.php");
         }
     }
         ?>
+        
+        <div align="right">
+            <!--<button class="btn"><input type="submit" value="Update" name="update_cart"/></button>-->
+            <button name="update_cart" type="submit" class="btn btn-danger">Update</button>
+           <!--<input type="submit" name="update_cart" value="update">-->
+           
 
-    <div class="container" align="right" ><h3> <a  style="text-decoration:none " href="checkout.php">checkout </a></h3>
-          </div>
+        </div>
+                </form>
+   </tbody>
+
+        </table>
+      
+    </div>
+ 
+
+    <div class="container" align="right" ><h3> <a  style="text-decoration:none " href="checkout.php">checkout</a></h3> </div>
 </body>
 
 <!--   Core JS Files   -->
