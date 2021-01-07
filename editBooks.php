@@ -50,8 +50,8 @@ include("function/functions.php");
                         
                                                      
                     ?>
-                    <li><a href="editBooks.php">EDIT BOOKS<span></span></a></li>
-                    <li  class="active"><a href="addBooks.php">ADD BOOKS<span></span></a></li>
+                    <li class="active"><a href="editBooks.php">EDIT BOOKS<span></span></a></li>
+                    <li><a href="addBooks.php">ADD BOOKS<span></span></a></li>
                 </ul>
                 <form action="resultsPm.php" method="get" class="navbar-form navbar-right">
                     <div class="form-group label-floating">
@@ -60,10 +60,7 @@ include("function/functions.php");
                     </div>
                     <button type="submit" name="search" class="btn btn-round btn-just-icon btn-primary"><i class="material-icons">search</i><div class="ripple-container"></div></button>
                 </form>
-
-
             </div>
-
         </div>
     </nav>
 
@@ -78,12 +75,16 @@ include("function/functions.php");
 <input type='button' name='Submit' value='Submit' />
 </form> -->
 
-                 <form action="addBooks.php" method="post">      
+                 <form action="editBooks.php" method="post">      
                  <div class='modal-dialog'>
                         <div class='modal-content'>
                           <div class='modal-header'>
+
+                          <label class='control-label'>--------------------------------------Please Enter id of a product you want to edit--------------------------------------</label>
+                                  <input type='text' class='form-control input-lg' name='theID'>
+
                             <label class='control-label'>Name</label>
-                                  <input type='text' class='form-control input-lg' name='chName' >
+                                  <input type='text' class='form-control input-lg' name='chName'>
 
                                
                             <label class='control-label'>ID</label>
@@ -121,46 +122,84 @@ include("function/functions.php");
                               <label class='control-label'>Keywords</label>
                                   <input type='text' class='form-control input-lg' name='chKeywords' >
                                   
-                                  <button name="addBook" type="submit" class="btn btn-danger">ADD</button>   
+                                  <button name="editBook" type="submit" class="btn btn-danger">Edit</button>   
                               </form>   
 
                             </div>
-                            </div>
-                            </div>
+                        </div>
+                    </div>
                              
            <?php
-           
-           
-         //  echo "<script> alert(".$_POST['chName'].")</script>";
-                                  
-                        if(isset($_POST['addBook']) && isset($_POST['chName']) && isset($_POST['chId']) && isset($_POST['chInfo']) && isset($_POST['chRating']) && isset($_POST['chPrice']) && isset($_POST['chCat'])  && isset($_POST['chComment']) && isset($_POST['chImage']) && isset($_POST['chAuthor']) && isset($_POST['chKeywords']))
-                        {
-
-                                $chName =$_POST['chName'];
-                               
-                                $chid =$_POST['chId'];
-                                //echo "<script> alert('$chName')</script>";
-                            
-                                $chInfo =$_POST['chInfo'];
         
-                                $chRating =$_POST['chRating'];
-      
-                                $chPrice =$_POST['chPrice'];
-          
-                                $chCat =$_POST['chCat'];
+                                  
+                        if(isset($_POST['editBook']))
+                        {
+                                $theID = $_POST['theID'];
 
-                                $chComment =$_POST['chComment'];
+                                //$tmp = mysqli_query($conn, "SELECT `name` from products where pid = '$theID'");
+                                //$num = mysqli_num_rows($tmp);
+                                //echo "<script>alert('$num') </script>";
 
-                                $chImage =$_POST['chImage'];
+                                $qr = "SELECT * FROM products WHERE pid = '$theID'";
+
+                                $returned = mysqli_query($conn, $qr);
                                 
-                                $chAuthor =$_POST['chAuthor'];
 
-                                $chKeywords =$_POST['chKeywords'];
+                                if(mysqli_num_rows($returned) == 0)
+                                    die("A product with that id does not exist!");
+                                else
+                                {
 
-                                $addBook = "INSERT INTO `products` (`pid`, `name`, `rating`, `price`, `info`, `category`, `comment`, `image`, `author`, `keywords`) VALUES ('$chid', '$chName', '$chRating', '$chPrice', '$chInfo', '$chCat', '$chComment', '$chImage', '$chAuthor', '$chKeywords')";
-                                mysqli_query($conn, $addBook);
+                                    if($_POST['chName'] != "")
+                                    {
+                                        $chName = $_POST['chName'];
+                                        mysqli_query($conn, "UPDATE `products` SET `name` = '$chName' WHERE `products`.`pid` = '$theID'");
+                                    }
+                                    if($_POST['chInfo'] != ""){
+                                        $chInfo = $_POST['chInfo'];
+                                        mysqli_query($conn, "UPDATE `products` SET `info` = '$chInfo' WHERE `products`.`pid` = '$theID'");
+                                    }
+        
+                                    
+                                    if($_POST['chRating'] != ""){
+                                        $chRating = $_POST['chRating'];
+                                        mysqli_query($conn, "UPDATE `products` SET `rating` = '$chRating' WHERE `products`.`pid` = '$theID'");
+                                    }
 
-                                } 
+                                    if($_POST['chPrice'] != ""){
+                                        $chPrice = $_POST['chPrice'];
+                                        mysqli_query($conn, "UPDATE `products` SET `price` = '$chPrice' WHERE `products`.`pid` = '$theID'");
+                                    }
+
+
+                                    if($_POST['chCat'] != ""){
+                                        $chCat = $_POST['chCat'];
+                                        mysqli_query($conn, "UPDATE `products` SET `category` = '$chCat' WHERE `products`.`pid` = '$theID'");
+                                    }
+
+                                    if($_POST['chImage'] != ""){
+                                        $chImage = $_POST['chImage'];
+                                        mysqli_query($conn, "UPDATE `products` SET `image` = '$chImage' WHERE `products`.`pid` = '$theID'");
+                                    }
+
+                                    if($_POST['chAuthor'] != ""){
+                                        $chAuthor = $_POST['chAuthor'];
+                                        mysqli_query($conn, "UPDATE `products` SET `author` = '$chAuthor' WHERE `products`.`pid` = '$theID'");
+                                    }
+
+                                    if($_POST['chId'] != ""){
+                                        $chId = $_POST['chId'];
+                                        mysqli_query($conn, "UPDATE `products` SET `pid` = '$chId' WHERE `products`.`pid` = '$theID'");
+                                    }
+
+                                    if($_POST['chKeywords'] != ""){
+                                        $chKeywords = $_POST['chKeywords'];
+                                        mysqli_query($conn, "UPDATE `products` SET `keywords` = '$chKeywords' WHERE `products`.`pid` = '$theID'");
+                                    }
+
+                                }
+                                
+                            } 
                                ?>
                                            
         </div>

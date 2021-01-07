@@ -52,7 +52,7 @@ img
                       <li class="active"><a href = 'Profile.php'>Hi <?php echo "$_SESSION[name]";?>  !</a></li>
                       <li><a href='logout.php'>Logout</a></li>
                     <li><a href="cart.php">Go to Cart<span class="badge"><?php total_items(); ?></span></a></li>
-
+                    <li><a href="Bought_Books.php">Bought Books</a></li>
                 </ul>
                 </div>
         </div>
@@ -154,13 +154,49 @@ img
     <div class='container'>
     <table class='table-striped table'>
         <thead class='thead-inverse'>
-        <!-- <img width='150p' src='assets/images/pp.png'> -->
-        <h3 class= 'modal-header'>Profile</h3>
+
             <tr>
                 <th>Your Previous Orders:</th>
-                <th></th>
-                <th></th>
             </tr>
+            <tr style="color:#FF0000">
+                <th>OrderID:</th>
+                <th>Total Cost:</th>
+                <!-- <th>CustomerID:</th> -->
+                <th>Summary:</th>
+            </tr>
+            
+            <?php 
+
+                if($_SESSION['isC'])
+                    $id = $_SESSION['cid'];
+                else
+                    $id = -1 * $gid;
+
+                $toRunSql = "SELECT * from orders where customer_id = '$id' ORDER BY `order_id` DESC";
+                $arr = mysqli_query($conn, $toRunSql);
+                while($rw = mysqli_fetch_row($arr))
+                {
+
+                    echo "
+                    
+                    
+                    <tr>
+                    <th>$rw[0]</th> 
+                    <th>$rw[1]</th>
+                    <!-- <th>$rw[2]</th>--> 
+                    <th>$rw[3]</th> 
+                    <form  name = 'ma_form' method='post' action='profile.php'>
+                         </form>
+                    </tr>
+                            ";
+                }
+
+                
+
+
+                ?>
+
+
         </thead>
     </table>
     </div>

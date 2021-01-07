@@ -138,7 +138,7 @@ include("includes/db.php");
 				else
 				{
 					$_SESSION['email'] = $email;
-					$toRun = "SELECT c_name, c_phone, c_address, c_password  FROM customers where c_password='$pass' AND c_mail='$email'";
+					$toRun = "SELECT  c_name, c_phone, c_address, c_password, c_id  FROM customers where c_password='$pass' AND c_mail='$email'";
 					$results = mysqli_query($conn, $toRun);
 					while($row = mysqli_fetch_row($results))
 					{
@@ -146,6 +146,8 @@ include("includes/db.php");
 						$_SESSION['phone'] = $row[1];
 						$_SESSION['address'] = $row[2];
 						$_SESSION['password'] = $row[3];
+						$_SESSION['cid'] = $row[4];
+						$_SESSION['isC'] = true;
 					}
 					
 					echo "<script>alert('Login Successful')</script>";

@@ -61,7 +61,7 @@ include("function/functions.php");
                     ?>
                    
                     <li class="active"><a href="cart.php">my Cart<span class="badge"><?php total_items(); ?></span></a></li>
-                    
+                    <li><a href="Bought_Books.php">Bought Books</a></li>
                 </ul>
                 <form action="results.php" method="get" class="navbar-form navbar-right">
                     <div class="form-group label-floating">

@@ -57,7 +57,7 @@ include("function/functions.php");
                     <li><a href="editBooks.php">EDIT BOOKS<span></span></a></li>
                     <li><a href="addBooks.php">ADD BOOKS<span></span></a></li>
                 </ul>
-                <form action="results.php" method="get" class="navbar-form navbar-right">
+                <form action="resultsPm.php" method="get" class="navbar-form navbar-right">
                     <div class="form-group label-floating">
                         <label class="control-label">Search Books</label>
                         <input type="text" name="user_query" class="form-control">

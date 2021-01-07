@@ -1,6 +1,5 @@
 <!doctype html>
-<?php 
-include("function/functions.php");
+<?php include("function/functions.php");
 ?>
 <html lang="en">
 
@@ -25,7 +24,7 @@ include("function/functions.php");
 
 <body data-spy="scroll" data-target="#myScrollspy" data-offset="15">
 
-    <!-- Navbar will come here  -->
+    <!-- Navbar will come here -->
 
     <nav class="navbar navbar-fixed-top" role="navigation" id="topnav">
         <div class="container-fluid">
@@ -42,47 +41,28 @@ include("function/functions.php");
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="index.php">Home</a></li>
+                    <li><a href="pm.php">Home</a></li>
                     <?php 
-                                      
-                        if(isset($_SESSION['name']))
-                        {
-                            echo "<li><a href = 'Profile.php'>Hi ".$_SESSION['name']." !</a></li>"; 
+                                                    
+                            echo "<li><a>Hi PM ".$_SESSION['pmusername']." !</a></li>"; 
                             echo "<li><a href='logout.php'>Logout</a></li>"; 
-                            $_SESSION['id'] = $_SESSION['cid'];
-                        }
-                            
-                        else
-                        {
-						    $_SESSION['isC'] = false;
-                            echo "<li><a>Hi, Guest</a></li>";
-                            echo "<li><a href='newlogin.php'>Login</a></li>";
-                          
-                            if(!isset($_SESSION['gid']))
-                            {
-                                $newGuest="INSERT INTO `guests` VALUES()";
-                                $run = mysqli_query($conn, $newGuest);
-                                $lastElmnt = "SELECT `g_id` FROM `guests` ORDER BY `g_id` DESC LIMIT 1";
-                                $queryIt = mysqli_query($conn, $lastElmnt);
-                                while($gid = mysqli_fetch_row($queryIt)) 
-                                    $_SESSION['gid'] = $gid[0];   
-
-                                $_SESSION['id'] = -1 * $_SESSION['gid'];
-                            }
-                        }         
+                        
+                                                     
                     ?>
-
-                    <li><a href="cart.php">Go to Cart<span class="badge"><?php total_items(); ?></span></a></li>
-                    <li><a href="Bought_Books.php">Bought Books</a></li>
+                    <li><a href="editBooks.php">EDIT BOOKS<span></span></a></li>
+                    <li  class="active"><a href="addBooks.php">ADD BOOKS<span></span></a></li>
                 </ul>
-                <form action="results.php" method="get" class="navbar-form navbar-right">
+                <form action="resultsPm.php" method="get" class="navbar-form navbar-right">
                     <div class="form-group label-floating">
                         <label class="control-label">Search Books</label>
                         <input type="text" name="user_query" class="form-control">
                     </div>
                     <button type="submit" name="search" class="btn btn-round btn-just-icon btn-primary"><i class="material-icons">search</i><div class="ripple-container"></div></button>
                 </form>
+
+
             </div>
+
         </div>
     </nav>
 
@@ -93,25 +73,69 @@ include("function/functions.php");
     <div class="container-fluid">
 
         <div class="row">
-            <div class="col-lg-2 col-md-2" id="myScrollspy">
-                <ul data-offset-top="225" data-spy="affix" class="nav nav-pills  nav-stacked">
-                    <li role="presentation"><a href="index.php">All books</a></li>
-                    <?php getcats();?>
+            
+            <div class="col-lg-10 col-md-10 " id="mainarea">
 
-                </ul>
-            </div>
-            <div class="col-lg-10 col-md-10" id="mainarea">
+
                 <div class="container-fluid">
-                    <?php cart(); ?>
-                    <!-- Adding books -->
                     <div class="row">
-                        <?php getbooks();?>
-                        <?php get_bycat();?>
+
+                        <?php if(isset($_GET['search'])){
+    $search_query=$_GET['user_query'];
+   
+    $result = "select * from products where keywords like '%$search_query%' ";
+     $result=mysqli_query($conn, $result);
+    while($row=mysqli_fetch_array($result))
+	{
+		echo "<div class='col-lg-4 col-md-6'>
+                            <div class='card'>
+                                <img class='card-img' height='200px' width='100px' src='assets/images/".$row['image']."'>
+                                <span class='content-card'>
+                                    <h6>".$row['name']."</h6>
+                                    <h7>".$row['author']."</h7>
+                                </span>
+                                <a href='index.php?add_cart=".$row['pid']."'><button class='buybtn btn btn-warning btn-round btn-sm'>
+	 								Add <i class='material-icons'>add_shopping_cart</i>
+								</button></a>
+                                <button class='knowbtn btn btn-warning btn-round btn-sm' data-toggle='modal' data-target='#".$row['pid']."'>
+	 								Know More
+								</button>";
+                                
+          
+        echo "<div class='modal fade' id='".$row['pid']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+                  <div class='modal-dialog'>
+                    <div class='modal-content'>
+                      <div class='modal-header'>
+                        <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                        <h4 class='modal-title' id='myModalLabel'>".$row['name']."</h4>
+                      </div>
+                      <div class='modal-body'>
+                      <h4><p align='right'>&#8377;".$row['price']."</p></h4>".
+                          $row['info']
+                      ."</div>
+                      <div class='modal-footer'>
+                        <button type='button' class='btn btn-default btn-simple' data-dismiss='modal'>Close</button>
+                        
+                      </div>
                     </div>
+                  </div>
                 </div>
+                                
+							</div>
+                        </div>";    //the last two </div> are from previous echo.
+	}
+}
+?> 
+                    </div>
+
+
+                </div>
+
             </div>
         </div>
     </div>
+    
+
 </body>
 
 <!--   Core JS Files   -->
