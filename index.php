@@ -93,7 +93,15 @@ include("function/functions.php");
     <div class="container-fluid">
 
         <div class="row">
+            
+
             <div class="col-lg-2 col-md-2" id="myScrollspy">
+            <li role="presentation">Sort By:</li>
+            <form method = "post">
+            <button name ="sortByName">Book Name</button>
+            <button name = "sortByPrice">Price</button>
+            <button name = "sortByRating">Rating</button>
+            </form>
                 <ul data-offset-top="225" data-spy="affix" class="nav nav-pills  nav-stacked">
                     <li role="presentation"><a href="index.php">All books</a></li>
                     <?php getcats();?>

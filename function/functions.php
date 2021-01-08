@@ -162,7 +162,8 @@ function getcats(){
 	}
 
 }
-function getauths(){
+
+  function getauths(){
 	global $conn;
 
 	$query3="SELECT DISTINCT author FROM products";
@@ -178,7 +179,22 @@ function getbooks(){
 	global $conn;
   if(!isset($_GET['category']))
   {
-    $query="SELECT * from products";
+    if(isset($_POST['sortByName']))
+    {
+      $query="SELECT * from products ORDER BY `name`";
+    }
+    else if(isset($_POST['sortByPrice']))
+    { 
+       $query="SELECT * from products ORDER BY price";
+    }
+    else if(isset($_POST['sortByRating']))
+    {
+      $query="SELECT * from products ORDER BY rating";
+    }
+    else
+    {
+      $query="SELECT * from products";
+    }
     $result=mysqli_query($conn, $query);
     while($row=mysqli_fetch_array($result))
     {
@@ -206,15 +222,68 @@ function getbooks(){
                         </div>
                         <div class='modal-body'>
                         <h4><p align='right'>&#8378;".$row['price']."</p></h4>".
-                            $row['info']
-                        ."</div>
+                            $row['info']."</div>
                       
-                      </div>
-                    </div>
-                  </div>
-                                  
-                </div>
-                          </div>";    //the last two </div> are from previous echo.
+                  ";    //the last two </div> are from previous echo.
+
+                          
+                        $p_id = $row['pid'];
+
+                        $numRatings = "SELECT rating from user_rates where p_id = '$p_id'";
+                        $arr = mysqli_query($conn, $numRatings);
+                        $num = mysqli_num_rows($arr);
+                        
+                        if($num == 0)
+                          echo "<p>No Rating</p>";
+                        else
+                        {
+                          $av = "SELECT AVG(`rating`) FROM `user_rates` WHERE `p_id` = '$p_id'";
+                          echo "<script>alert('$av')</script>";
+                          $ratings = mysqli_query($conn, $av);
+                          while($rws = mysqli_fetch_row($ratings))
+                          {
+                            $rating = $rws[0];
+                            echo "<p>Rating: $rating</p>";
+                          }
+                          //echo "<script>alert('$rating')</script>";
+                          
+  
+                        }
+                        
+
+                      $qr1 = "SELECT ccp.comment, c.c_name
+                              FROM customer_comment_product ccp, products p, customers c
+                              WHERE p.pid = '$p_id' AND ccp.p_id = p.pid AND c.c_id = ccp.c_id 
+                          ";
+
+                      $qr2 = "SELECT ccp.comment
+                              FROM customer_comment_product ccp, products p, guests g
+                              WHERE p.pid = '$p_id' AND ccp.p_id = p.pid AND g.g_id = -ccp.c_id 
+                          ";
+                            $sqlRun = mysqli_query($conn, $qr1);
+                            $howMany = 0;
+                            $howMany+= mysqli_num_rows($sqlRun);
+                            $sqlRun2 = mysqli_query($conn, $qr2);
+                            $howMany+= mysqli_num_rows($sqlRun2);
+                            if($howMany == 0)
+                              echo "<p>No comments</p>";
+                            else
+                              {
+                                //echo "<script> alert('hello') </script>";
+                                echo "<b>Comments: </b> <br>";
+                                while($rw = mysqli_fetch_row($sqlRun))
+                                {
+                                  echo "<b>User $rw[1] - $rw[0]</p>";
+                                }
+                                while($rw = mysqli_fetch_row($sqlRun2))
+                                {
+                                  echo "<b>A guest - $rw[0]</p>";
+                                }
+                              }
+               echo "     </div>
+               </div>
+             </div>          </div>
+          </div>";
     }
     }
 }
@@ -225,7 +294,25 @@ function get_bycat()
   if(isset($_GET['category']))
   {
     $cat_id= $_GET['category'];
-    $get_cat_pro = "SELECT * FROM products WHERE category = '$cat_id'";
+    
+    if(isset($_POST['sortByName']))
+    {
+      $get_cat_pro="SELECT * from products WHERE category = '$cat_id' ORDER BY `name`";
+    }
+    else if(isset($_POST['sortByPrice']))
+    { 
+       $get_cat_pro="SELECT * from products WHERE category = '$cat_id' ORDER BY price";
+    }
+    else if(isset($_POST['sortByRating']))
+    {
+      $get_cat_pro="SELECT * from products WHERE category = '$cat_id' ORDER BY rating";
+    }
+    else
+    {
+      $get_cat_pro = "SELECT * FROM products WHERE category = '$cat_id'";
+    }
+
+    
     $run_cat_pro=mysqli_query($conn,$get_cat_pro);
     $count_cat = mysqli_num_rows($run_cat_pro);
     if($count_cat==0)
@@ -269,6 +356,25 @@ function get_bycat()
 
 
                         $p_id = $row['pid'];
+
+                        $numRatings = "SELECT rating from user_rates where p_id = '$p_id'";
+                        $arr = mysqli_query($conn, $numRatings);
+                        $num = mysqli_num_rows($arr);
+                        
+                        if($num == 0)
+                          echo "<p>No Rating</p>";
+                        else
+                        {
+                          $av = "SELECT AVG(`rating`) FROM `user_rates` WHERE `p_id` = '$p_id'";
+                          echo "<script>alert('$av')</script>";
+                          $ratings = mysqli_query($conn, $av);
+                          while($rws = mysqli_fetch_row($ratings))
+                          {
+                            $rating = $rws[0];
+                            echo "<p>Rating: $rating</p>";
+                          }
+                        }
+
                         $qr1 = "SELECT ccp.comment, c.c_name
                                 FROM customer_comment_product ccp, products p, customers c
                                 WHERE p.pid = '$p_id' AND ccp.p_id = p.pid AND c.c_id = ccp.c_id 
@@ -276,7 +382,7 @@ function get_bycat()
 
                             $qr2 = "SELECT ccp.comment
                             FROM customer_comment_product ccp, products p, guests g
-                            WHERE p.pid = '$p_id' AND ccp.p_id = p.pid AND g.gid = -ccp.c_id 
+                            WHERE p.pid = '$p_id' AND ccp.p_id = p.pid AND g.g_id = -ccp.c_id 
                         ";
                             $sqlRun = mysqli_query($conn, $qr1);
                             $howMany = 0;

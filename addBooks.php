@@ -82,6 +82,7 @@ include("function/functions.php");
                  <div class='modal-dialog'>
                         <div class='modal-content'>
                           <div class='modal-header'>
+                          
                             <label class='control-label'>Name</label>
                                   <input type='text' class='form-control input-lg' name='chName' >
 
@@ -93,11 +94,11 @@ include("function/functions.php");
                               <label class='control-label'>Info</label>
                                   <input type='text' class='form-control input-lg' name='chInfo' >
                               
-                              
+<!--                               
                               <label class='control-label'>Rating</label>
                                   <input type='text' class='form-control input-lg' name='chRating' >
                               
-                              
+                               -->
                               <label class='control-label'>Price</label>
                                   <input type='text' class='form-control input-lg' name='chPrice' >
                               
@@ -105,11 +106,11 @@ include("function/functions.php");
                               <label class='control-label'>Category</label>
                                   <input type='text' class='form-control input-lg' name='chCat' >
                               
-                              
+<!--                               
                               <label class='control-label'>Comment</label>
                                   <input type='text' class='form-control input-lg' name='chComment' >
                               
-                              
+                               -->
                               <label class='control-label'>Image</label>
                                   <input type='text' class='form-control input-lg' name='chImage' >
                               

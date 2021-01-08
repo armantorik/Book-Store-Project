@@ -7,7 +7,6 @@ include("function/functions.php");
 <head>
     <meta charset="utf-8" />
 
-
     <title>Books Store</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
@@ -37,54 +36,18 @@ include("function/functions.php");
                 <span class="icon-bar"></span>
     		</button>
                 <a class="navbar-brand" href="#">Group20 BookStore</a>
-
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="index.php">Home</a></li>
                     <?php 
-                                      
-                        if(isset($_SESSION['name']))
-                        {
-                            echo "<li><a href = 'Profile.php'>Hi ".$_SESSION['name']." !</a></li>"; 
-                             echo "<li><a href='logout.php'>Logout</a></li>"; 
-                        }
-                            
-                        else
-                        {
-                            echo "<li><a>Hi, Guest</a></li>";
-                            echo "<li><a href='newlogin.php'>Login</a></li>";
-                          
-                            if(!isset($_SESSION['gid']))
-                            {
-                                $newGuest="INSERT INTO `guests` VALUES()";
-                                $run = mysqli_query($conn, $newGuest);
-                                $lastElmnt = "SELECT `g_id` FROM `guests` ORDER BY `g_id` DESC LIMIT 1";
-                                $queryIt = mysqli_query($conn, $lastElmnt);
-                                while($gid = mysqli_fetch_row($queryIt)) 
-                                {
-                                    $_SESSION['gid'] = $gid[0];
-                                }
-                                
-                            }
-                                
-                    
-                        }         
+    
+                        echo "<li><a>Hi SM ".$_SESSION['smusername']." !</a></li>"; 
+                        echo "<li><a href='logout.php'>Logout</a></li>"; 
+                             
                     ?>
-
-                    <li><a href="cart.php">Go to Cart<span class="badge"><?php total_items(); ?></span></a></li>
-
                 </ul>
-                <form action="results.php" method="get" class="navbar-form navbar-right">
-                    <div class="form-group label-floating">
-                        <label class="control-label">Search Books</label>
-                        <input type="text" name="user_query" class="form-control">
-                    </div>
-                    <button type="submit" name="search" class="btn btn-round btn-just-icon btn-primary"><i class="material-icons">search</i><div class="ripple-container"></div></button>
-                </form>
-
-
             </div>
 
         </div>
@@ -94,34 +57,46 @@ include("function/functions.php");
 
     <!-- end navbar -->
 
-    
+    <div class="container">
+        <table class="table-striped table">
+            <thead class="thead-inverse">
+            <tr><th> Order Id </th>
+            <th> Invoice </th>
+            <th> User</th>  
+            <th> Summary </th>
+            <th> Status </th>
+            
+            </tr>
+<?php
 
-    <div class="container-fluid">
+$orderQ = "SELECT * from orders";
+$arr = mysqli_query($conn, $orderQ);
 
-        <div class="row">
-            <div class="col-lg-2 col-md-2" id="myScrollspy">
-                <ul data-offset-top="225" data-spy="affix" class="nav nav-pills  nav-stacked">
-                    <li role="presentation"><a href="index.php">All books</a></li>
-                    <?php getcats();?>
+while($rw = mysqli_fetch_array($arr))
+{
+    echo "<tr>";
+    if($rw['customer_id'] > 0)
+    {
+        $cnames = mysqli_query($conn, "SELECT  c.c_name from customers c, orders o where c.c_id = o.customer_id");
+        while($cname = mysqli_fetch_array($cnames)) {
+            $a = $cname[0];
+        }
+        echo "<td>".$rw['order_id']."</td> <td>".$rw['invoice']."</td> <td> $a</td>  <td>".$rw['invoice_summary']."</td>  <td>".$rw['Status']."</td>";
 
-                </ul>
-            </div>
-            <div class="col-lg-10 col-md-10" id="mainarea">
+    }
+    else 
+    {
+        $gidtoW = $rw['customer_id'];
+        echo "<td>".$rw['order_id']."</td> <td>".$rw['invoice']."</td> <td> $gidtoW</td>  <td>".$rw['invoice_summary']."</td>  <td>".$rw['Status']."</td>";
+    }
+    echo "</tr>";
+}
 
-                <div class="container-fluid">
-                    <?php cart(); ?>
-                    <!-- Adding books -->
-                    <div class="row">
-                        <?php getbooks();?>
-                        <?php get_bycat();?>
+?>
 
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+</div>
+    </table>
+        </thead> 
 
 </body>
 

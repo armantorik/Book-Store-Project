@@ -163,6 +163,7 @@ img
                 <th>Total Cost:</th>
                 <!-- <th>CustomerID:</th> -->
                 <th>Summary:</th>
+                <th>Status:</th>
             </tr>
             
             <?php 
@@ -178,15 +179,14 @@ img
                 {
 
                     echo "
-                    
-                    
+    
                     <tr>
+
                     <th>$rw[0]</th> 
                     <th>$rw[1]</th>
-                    <!-- <th>$rw[2]</th>--> 
                     <th>$rw[3]</th> 
-                    <form  name = 'ma_form' method='post' action='profile.php'>
-                         </form>
+                    <th>$rw[4]</th> 
+                    
                     </tr>
                             ";
                 }

@@ -80,46 +80,46 @@ include("function/functions.php");
                         <div class='modal-content'>
                           <div class='modal-header'>
 
-                          <label class='control-label'>--------------------------------------Please Enter id of a product you want to edit--------------------------------------</label>
+                          <label class='control-label'>- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Please Enter id of a product you want to edit- - - - - - - - - - - - - - - - - - - - - - - - - - -  - - </label>
                                   <input type='text' class='form-control input-lg' name='theID'>
 
-                            <label class='control-label'>Name</label>
+                            <label class='control-label'>New Name</label>
                                   <input type='text' class='form-control input-lg' name='chName'>
 
                                
-                            <label class='control-label'>ID</label>
+                            <label class='control-label'>New ID</label>
                                   <input type='text' class='form-control input-lg' name='chId' >
                               
                                 
-                              <label class='control-label'>Info</label>
+                              <label class='control-label'>New Info</label>
                                   <input type='text' class='form-control input-lg' name='chInfo' >
                               
-                              
+<!--                               
                               <label class='control-label'>Rating</label>
                                   <input type='text' class='form-control input-lg' name='chRating' >
+                               -->
                               
-                              
-                              <label class='control-label'>Price</label>
+                              <label class='control-label'>New Price</label>
                                   <input type='text' class='form-control input-lg' name='chPrice' >
                               
                               
-                              <label class='control-label'>Category</label>
+                              <label class='control-label'>New Category</label>
                                   <input type='text' class='form-control input-lg' name='chCat' >
                               
                               
-                              <label class='control-label'>Comment</label>
+                              <!-- <label class='control-label'>Comment</label>
                                   <input type='text' class='form-control input-lg' name='chComment' >
+                               -->
                               
-                              
-                              <label class='control-label'>Image</label>
+                              <label class='control-label'>New Image</label>
                                   <input type='text' class='form-control input-lg' name='chImage' >
                               
                               
-                              <label class='control-label'>Author</label>
+                              <label class='control-label'>New Author</label>
                                   <input type='text' class='form-control input-lg' name='chAuthor' >
                               
                               
-                              <label class='control-label'>Keywords</label>
+                              <label class='control-label'>New Keywords</label>
                                   <input type='text' class='form-control input-lg' name='chKeywords' >
                                   
                                   <button name="editBook" type="submit" class="btn btn-danger">Edit</button>   
@@ -161,10 +161,10 @@ include("function/functions.php");
                                     }
         
                                     
-                                    if($_POST['chRating'] != ""){
-                                        $chRating = $_POST['chRating'];
-                                        mysqli_query($conn, "UPDATE `products` SET `rating` = '$chRating' WHERE `products`.`pid` = '$theID'");
-                                    }
+                                    // if($_POST['chRating'] != ""){
+                                    //     $chRating = $_POST['chRating'];
+                                    //     mysqli_query($conn, "UPDATE `products` SET `rating` = '$chRating' WHERE `products`.`pid` = '$theID'");
+                                    // }
 
                                     if($_POST['chPrice'] != ""){
                                         $chPrice = $_POST['chPrice'];
