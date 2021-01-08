@@ -166,7 +166,7 @@ include("function/functions.php");
         else
           $id = -1 * $gid;
 
-        $ins = "INSERT INTO `orders`(`invoice`, `customer_id`, `invoice_summary`, `Status`) VALUES('$total_price', '$id', '$shopSummary', 'In Progress...')";
+        $ins = "INSERT INTO `orders`(`invoice`, `customer_id`, `invoice_summary`, `Status`) VALUES('$total_price', '$id', '$shopSummary', 'In Progress')";
         $result = mysqli_query($conn, $ins);
         //echo "<script> alert('$err')</script>";
           $lastElmnt = "SELECT `order_id` FROM `orders` ORDER BY `order_id` DESC LIMIT 1";

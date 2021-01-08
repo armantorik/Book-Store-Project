@@ -65,7 +65,8 @@ include("function/functions.php");
             <th> User</th>  
             <th> Summary </th>
             <th> Status </th>
-            
+            <th> Change Status </th>
+            <th> Remove </th>   
             </tr>
 <?php
 
@@ -89,7 +90,62 @@ while($rw = mysqli_fetch_array($arr))
         $gidtoW = $rw['customer_id'];
         echo "<td>".$rw['order_id']."</td> <td>".$rw['invoice']."</td> <td> $gidtoW</td>  <td>".$rw['invoice_summary']."</td>  <td>".$rw['Status']."</td>";
     }
-    echo "</tr>";
+    $oid = $rw['order_id'];
+    echo "
+                               <td>
+                                <form  name = 'ma_form' method='post' action='sm.php'>
+                            
+                                <input type='radio' name='status".$rw['order_id']."' value='inProg'> In Progress </input>
+                                <input type='radio' name='status".$rw['order_id']."' value='ship'> Shipped </input>
+                                <input type='radio' name='status".$rw['order_id']."' value='del'> Delivered </input>
+                                <button name='sbt".$rw['order_id']."' type='submit'>Submit</button>
+
+                               </td>
+                                </form>
+
+
+                                <td>
+                            <form name = 'anothaForm' method = 'post' action 'sm.php'>
+                            <button name='rm".$rw['order_id']."' type='submit' class='btn btn-danger'>Remove</button>
+                            </form>
+                                </td>
+
+
+                            </tr>";
+
+                            $order_id = $rw['order_id'];
+                            
+                            if (isset($_POST["sbt".$rw['order_id'].""])) 
+                            {
+
+                                if (isset($_POST["status".$rw['order_id'].""]) && $_POST["status".$rw['order_id'].""] == "inProg") {
+                                    
+                                    //echo "<script> alert('$order_id') </script>";   
+                                    mysqli_query($conn, "UPDATE `orders` SET `Status` = 'In Progress' WHERE `orders`.`order_id` = '$order_id' ");
+                                    unset($_POST["sbt".$rw['order_id'].""]);
+                                }
+    
+                                else if (isset($_POST["status".$rw['order_id'].""]) && $_POST["status".$rw['order_id'].""] == "ship") {
+                                    mysqli_query($conn, "UPDATE `orders` SET `Status` = 'Shipped' WHERE `orders`.`order_id` = '$order_id' ");
+                                    unset($_POST["sbt".$rw['order_id'].""]);
+                                }
+    
+                                else if (isset($_POST["status".$rw['order_id'].""]) && $_POST["status".$rw['order_id'].""] == "del") {
+                                    mysqli_query($conn, "UPDATE `orders` SET `Status` = 'Delivered' WHERE `orders`.`order_id` = '$order_id' ");
+                                    unset($_POST["sbt".$rw['order_id'].""]);
+                                }
+                        }
+
+                        if(isset($_POST["rm".$rw['order_id'].""]))
+                        {
+                            if($rw['Status'] != "Delivered")
+                                mysqli_query($conn, "DELETE from orders where order_id = '$order_id'");
+                            else
+                                echo "<script> alert('This order is already delivered, it is too late to be cancelled') </script>";
+                            
+                                unset($_POST["rm".$rw['order_id'].""]);
+                        }
+
 }
 
 ?>
