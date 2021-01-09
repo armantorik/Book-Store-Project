@@ -126,8 +126,7 @@ include("function/functions.php");
                         ";
                         $bookarr = mysqli_query($conn, $qr);
                     }
-                    //$a = mysqli_error($conn);
-                    //echo "<script>'$a'</script>";
+                    
                     $count = 0;
                     while ($bk = mysqli_fetch_row($bookarr)) {
                         $count++;

@@ -113,7 +113,6 @@ include("includes/db.php");
                 $newPhone = $_POST['newNumber'];
                 $newAdress = $_POST['newAddress'];
 				
-
 				$ins = "INSERT INTO `customers`(`c_name`, `c_mail`, `c_password`, `c_phone`, `c_address`) VALUES ('$newName','$newEmail', '$newPass', '$newPhone', '$newAdress')";
 				
 				if ($res = $conn->query($ins)) 
