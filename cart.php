@@ -102,19 +102,13 @@ include("function/functions.php");
                 <?php 
     if(isset($_POST['update_cart']))
     {
-        if(isset($_SESSION['email']))
-            $maill = $_SESSION['email'];
-        else
-            $gid = $_SESSION['gid'];
+            $id = $_SESSION['id'];
 
         if(isset($_POST['remove']))   
         {
             foreach($_POST['remove'] as $remove_id)
             {
-                if(isset($_SESSION['email']))
-                    $deleteOrdec = "UPDATE `basket` SET `quantity` = `quantity` - 1 WHERE `book_id` = '$remove_id' AND `customer_mail` = '$maill'";         
-                else
-                    $deleteOrdec = "UPDATE `basket` SET `quantity` = `quantity` - 1 WHERE `book_id` = '$remove_id' AND `customer_mail` = '$gid'";
+                $deleteOrdec = "UPDATE `basket` SET `quantity` = `quantity` - 1 WHERE `book_id` = '$remove_id' AND `customer_mail` = '$id'";
                 
                 $run_delete = mysqli_query($conn, $deleteOrdec);
                 rmZeros();

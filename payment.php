@@ -83,16 +83,10 @@ include("function/functions.php");
       <thead class="thead-inverse">
 
       <?php
-        if (isset($_SESSION['email']))
-          $maill = $_SESSION['email'];
-        else
-          $gid = $_SESSION['gid'];
+        $id = $_SESSION['id'];
 
         $count = 1;
-        if (isset($_SESSION['email']))
-          $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$maill')";
-        else
-          $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$gid')";
+        $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$id')";
 
         $cart_items = mysqli_query($conn, $get_cart);
         $total_price = 0;
@@ -140,10 +134,7 @@ include("function/functions.php");
 
             mysqli_query($conn, $toSql);
 
-          if (isset($_SESSION['email']))
-            $getQuantity = "SELECT `quantity` FROM `basket` WHERE `customer_mail` = '$maill' AND `book_id` = '$bk_id'";
-          else
-            $getQuantity = "SELECT `quantity` FROM `basket` WHERE `customer_mail` = '$gid' AND `book_id` = '$bk_id'";
+            $getQuantity = "SELECT `quantity` FROM `basket` WHERE `customer_mail` = '$id' AND `book_id` = '$bk_id'";
 
           $quantityArr = mysqli_query($conn, $getQuantity);
 
@@ -157,19 +148,11 @@ include("function/functions.php");
         }
         
         
-        if (isset($_SESSION['email'])) {
-          $cmail = $_SESSION['email'];
-          $gcid = mysqli_query($conn, "SELECT `c_id` from `customers` where `c_mail` = '$cmail'");
-          while($row = mysqli_fetch_array($gcid))
-            $id = $row[0];
-        } 
-        else
-          $id = -1 * $gid;
+        $id = $_SESSION['id'];
 
         $ins = "INSERT INTO `orders`(`invoice`, `customer_id`, `invoice_summary`, `Status`) VALUES('$total_price', '$id', '$shopSummary', 'In Progress')";
         $result = mysqli_query($conn, $ins);
-        //echo "<script> alert('$err')</script>";
-          $lastElmnt = "SELECT `order_id` FROM `orders` ORDER BY `order_id` DESC LIMIT 1";
+        $lastElmnt = "SELECT `order_id` FROM `orders` ORDER BY `order_id` DESC LIMIT 1";
 
         $queryIt = mysqli_query($conn, $lastElmnt);
         while ($rw = mysqli_fetch_row($queryIt))
@@ -184,13 +167,9 @@ include("function/functions.php");
           </tr>";
 
 
-        
-          if (isset($_SESSION['email']))
-            $lastDel = "DELETE from basket where customer_mail = '$maill'";
-          else
-            $lastDel = "DELETE from basket where customer_mail = $gid";
+          $lastDel = "DELETE from basket where customer_mail = $id";
 
-            mysqli_query($conn, $lastDel);
+          mysqli_query($conn, $lastDel);
       }
         ?>  
 

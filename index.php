@@ -45,29 +45,34 @@ include("function/functions.php");
                     <li class="active"><a href="index.php">Home</a></li>
                     <?php 
                                       
-                        if(isset($_SESSION['name']))
+                        if($_SESSION['isC']) // if email set, then it is a customer not a guest 
                         {
                             echo "<li><a href = 'Profile.php'>Hi ".$_SESSION['name']." !</a></li>"; 
                             echo "<li><a href='logout.php'>Logout</a></li>"; 
-                            $_SESSION['id'] = $_SESSION['cid'];
-                        }
-                            
-                        else
+                            $email = $_SESSION['email'];
+                            $toRun = "SELECT  c_id  FROM customers where c_mail='$email'";
+					        $results = mysqli_query($conn, $toRun);
+					        while($row = mysqli_fetch_row($results))
+					        {
+						        $_SESSION['id']  = $row[0];
+                            }
+                            $_SESSION['isC'] = true;
+                        }  
+                        else // If guest,
                         {
 						    $_SESSION['isC'] = false;
                             echo "<li><a>Hi, Guest</a></li>";
                             echo "<li><a href='newlogin.php'>Login</a></li>";
                           
-                            if(!isset($_SESSION['gid']))
+                            if(!isset($_SESSION['id']))
                             {
-                                $newGuest="INSERT INTO `guests` VALUES()";
+                                $newGuest="INSERT INTO `guests` VALUES()"; // Then assign a auto_incremented value as their id
                                 $run = mysqli_query($conn, $newGuest);
                                 $lastElmnt = "SELECT `g_id` FROM `guests` ORDER BY `g_id` DESC LIMIT 1";
                                 $queryIt = mysqli_query($conn, $lastElmnt);
                                 while($gid = mysqli_fetch_row($queryIt)) 
-                                    $_SESSION['gid'] = $gid[0];   
+                                    $_SESSION['id'] = $gid[0];   
 
-                                $_SESSION['id'] = -1 * $_SESSION['gid'];
                             }
                         }         
                     ?>

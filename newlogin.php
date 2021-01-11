@@ -147,7 +147,7 @@ include("includes/db.php");
 						$_SESSION['phone'] = $row[1];
 						$_SESSION['address'] = $row[2];
 						$_SESSION['password'] = $row[3];
-						$_SESSION['cid'] = $row[4];
+						$_SESSION['id'] = $row[4];
 						$_SESSION['isC'] = true;
 					}
 					

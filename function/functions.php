@@ -25,40 +25,27 @@ function getIpAdd()
 function cart(){
     if(isset($_GET['add_cart']))
     {
-        if(isset($_SESSION['email']))
-          $maill = $_SESSION['email'];
-        else
-          $gid = $_SESSION['gid'];
+        $id = $_SESSION['id'];
           
         global $conn;
         $ip=getIpAdd();
         
         $book_id = $_GET['add_cart'];
-        if(isset($_SESSION['email']))
-          $check_product = "SELECT `book_id`, `quantity` FROM `basket` WHERE  book_id='$book_id' AND customer_mail ='$maill'";
-        else
-          $check_product = "SELECT `book_id`, `quantity` FROM `basket` WHERE  book_id='$book_id' AND customer_mail ='$gid'";
-          
+
+        $check_product = "SELECT `book_id`, `quantity` FROM `basket` WHERE  book_id='$book_id' AND user_id ='$id'";
+        
         $run_check = mysqli_query($conn, $check_product);
 
         if(mysqli_num_rows($run_check) > 0)
         {
-          if(isset($_SESSION['email']))
-            $addMore = "UPDATE `basket` SET `quantity` = `quantity` + 1 WHERE book_id='$book_id' AND customer_mail='$maill'";
-          else
-            $addMore = "UPDATE `basket` SET `quantity` = `quantity` + 1 WHERE book_id='$book_id' AND customer_mail='$gid'";
-
+          $addMore = "UPDATE `basket` SET `quantity` = `quantity` + 1 WHERE book_id='$book_id' AND user_id='$id'";
           mysqli_query($conn, $addMore);
           echo "<script>window.open('index.php','_self')</script>";
         }
         else 
         {
-          if(isset($_SESSION['email']))
-            $insert_cart = "INSERT INTO `basket`(`book_id`, `quantity`, `customer_mail`) VALUES ('$book_id', 1, '$maill')";
-          else
-            $insert_cart = "INSERT INTO `basket`(`book_id`, `quantity`, `customer_mail`) VALUES ('$book_id', 1, '$gid')";
-
-          $run_cart = mysqli_query($conn, $insert_cart);
+          $insert_cart = "INSERT INTO `basket`(`book_id`, `quantity`, `user_id`) VALUES ('$book_id', 1, '$id')";
+          mysqli_query($conn, $insert_cart);
           echo "<script>window.open('index.php','_self')</script>";
         }
     }
@@ -66,18 +53,10 @@ function cart(){
 function total_items(){
   global $conn;
   $count = 0;
-  if(isset($_SESSION['email']))
-  {
-    $maill = $_SESSION['email']; 
-    $get_items = "SELECT * FROM `basket` WHERE `customer_mail` = '$maill'";
-    
-  }
-  else
-  {
-    $gid = $_SESSION['gid'];
-    $get_items = "SELECT * FROM `basket` WHERE `customer_mail` = '$gid'";
 
-  }
+  $id = $_SESSION['id'];
+  $get_items = "SELECT * FROM `basket` WHERE `user_id` = '$id'";
+
   $run = mysqli_query($conn, $get_items);
   while($row = mysqli_fetch_array($run))
       $count+= $row['quantity'];
@@ -90,33 +69,24 @@ function mycart()
   global $conn;
   $ip = getIpAdd();
 
-  if(isset($_SESSION['email']))
-    $maill = $_SESSION['email'];
-  else 
-    $gid = $_SESSION['gid'];
+  $id = $_SESSION['gid'];
 
-    $count = 1;
-  if(isset($_SESSION['email']))
-    $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$maill')";
-  else
-    $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$gid')";
+  $count = 1;
+
+  $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE user_id = '$id')";
 
   $cart_items = mysqli_query($conn, $get_cart);
   $total_price = 0;    
   while($bk = mysqli_fetch_array($cart_items)){
-    $price_arr = array($bk['price']);
-    //$total_price = array_sum($price_arr);
+
     $single_price = $bk['price'];
     
     $bk_title = $bk['name'];
     $bk_id = $bk['pid'];
 
-    if(isset($_SESSION['email']))
-      $getQuantity = "SELECT `quantity` FROM `basket` WHERE `customer_mail` = '$maill' AND `book_id` = '$bk_id'";
-    else
-      $getQuantity = "SELECT `quantity` FROM `basket` WHERE `customer_mail` = '$gid' AND `book_id` = '$bk_id'";
+    $getQuantity = "SELECT `quantity` FROM `basket` WHERE `customer_mail` = '$id' AND `book_id` = '$bk_id'";
 
-      $quantityArr = mysqli_query($conn, $getQuantity);
+    $quantityArr = mysqli_query($conn, $getQuantity);
 
       if (mysqli_num_rows($quantityArr) > 0) 
         while($row = mysqli_fetch_array($quantityArr))
@@ -224,7 +194,7 @@ function getbooks(){
                         <h4><p align='right'>&#8378;".$row['price']."</p></h4>".
                             $row['info']."</div>
                       
-                  ";    //the last two </div> are from previous echo.
+                  ";    //the last </div>s are from previous echo.
 
                           
                         $p_id = $row['pid'];
@@ -245,7 +215,6 @@ function getbooks(){
                             $rating = $rws[0];
                             echo "<p>Rating: $rating</p>";
                           }
-                          //echo "<script>alert('$rating')</script>";
                           
   
                         }
@@ -269,7 +238,6 @@ function getbooks(){
                               echo "<p>No comments</p>";
                             else
                               {
-                                //echo "<script> alert('hello') </script>";
                                 echo "<b>Comments: </b> <br>";
                                 while($rw = mysqli_fetch_row($sqlRun))
                                 {

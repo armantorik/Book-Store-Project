@@ -125,16 +125,14 @@ include("function/functions.php");
 
     <?php
 
-    // Leaving a field empty is not allowed, if all
+    // Leaving a field empty is not allowed
     if (isset($_POST['addBook']) && isset($_POST['chName']) && isset($_POST['chId']) && isset($_POST['chInfo'])  && isset($_POST['chPrice']) && isset($_POST['chCat']) && isset($_POST['chImage']) && isset($_POST['chAuthor']) && isset($_POST['chKeywords'])) {
-        //echo "<script>alert('hi')</script>";
 
         $chName = $_POST['chName'];
 
         $chid = $_POST['chId'];
 
         $chInfo = $_POST['chInfo'];
-        echo "<script>alert('$chInfo')</script>";
 
         // $chRating = $_POST['chRating'];
 
@@ -158,13 +156,16 @@ include("function/functions.php");
             echo '<script>alert("SQL error: '.$er.'")</script>';
         }    
         unset($_POST['addBook']);
+        
         if (isset($_POST['addBook']))
             echo "<script>alert('Prblm!')</script>";
 
     }
     else if(isset($_POST['addBook']))
         echo "<script>alert('Don't leave empty fields!')</script>";
-        
+    else 
+        echo "<script>alert('No Prblm!')</script>";
+
     ?>
 
     </div>

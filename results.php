@@ -46,21 +46,18 @@
                     
                     
                    
-                    if(!isset($_SESSION['email'])){
-                        echo "<li><a href='newlogin.php'>Login</a></li>";
+                    if($_SESSION['isC'])
+                    {
+                        $sess=$_SESSION['email'];
+                        echo "<li><a>Hi ".$_SESSION['email']." !</a></li>";
+                        echo "<li><a href='logout.php'>Logout</a></li>";
                     }
                     else 
                     {
-                        echo "<li><a href='logout.php'>Logout</a></li>";
-                    }
-                     if(isset($_SESSION['email'])){
-                        $sess=$_SESSION['email'];
-                        echo "<li><a>Hi ".$_SESSION['email']." !</a></li>";
-                        
-                    }
-                    else {
+                        echo "<li><a href='newlogin.php'>Login</a></li>";
                         echo "<li><a>Hi, Guest</a></li>";
                     }
+                        
                     ?>
                    
                     <li><a href="cart.php">Go to Cart<span class="badge"><?php total_items(); ?></span></a></li>
@@ -102,7 +99,9 @@
                     <!-- Adding books -->
                     <div class="row">
 
-                        <?php if(isset($_GET['search'])){
+                        <?php 
+if(isset($_GET['search'])){
+    
     $search_query=$_GET['user_query'];
    
     $result = "select * from products where keywords like '%$search_query%' ";

@@ -100,32 +100,15 @@ include("function/functions.php");
 
                     <?php
 
-                    if ($_SESSION['isC'])
-                        $id =  $_SESSION['cid'];
-                    else
-                    {
-                        $gid = $_SESSION['gid'];
-                        $id = -1 * $_SESSION['gid'];
-                    }
+                    $id = $_SESSION['id'];  
 
-
-                    if($_SESSION['isC'])
-                    {   //             0          1     2          3       4       5
-                        $qr = "SELECT p.name, p.author, p.rating, p.image, p.price, p.pid
-                                FROM customers c, bought_books b, products p
-                                WHERE c.c_id = '$id' AND c.c_id = b.c_id AND b.p_id = p.pid            
-                                ";
-                        $bookarr = mysqli_query($conn, $qr);
-                    }
-                    else 
-                    {
-                        //             0          1     2          3       4       5
-                        $qr = "SELECT p.name, p.author, p.rating, p.image, p.price, p.pid
-                                FROM guests g, bought_books b, products p
-                                 WHERE g.g_id = '$gid' AND  g.g_id = ABS(b.c_id) AND b.p_id = p.pid            
-                        ";
-                        $bookarr = mysqli_query($conn, $qr);
-                    }
+                    //             0          1     2          3       4       5
+                    $qr = "SELECT p.name, p.author, p.rating, p.image, p.price, p.pid
+                            FROM customers c, bought_books b, products p
+                            WHERE c.c_id = '$id' AND c.c_id = b.c_id AND b.p_id = p.pid            
+                            ";
+                    $bookarr = mysqli_query($conn, $qr);
+                
                     
                     $count = 0;
                     while ($bk = mysqli_fetch_row($bookarr)) {

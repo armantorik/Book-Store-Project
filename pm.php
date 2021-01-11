@@ -51,8 +51,7 @@ include("function/functions.php");
                                                     
                             echo "<li><a>Hi PM ".$_SESSION['pmusername']." !</a></li>"; 
                             echo "<li><a href='logout.php'>Logout</a></li>"; 
-                        
-                                                     
+                                          
                     ?>
                     <li><a href="editBooks.php">EDIT BOOKS<span></span></a></li>
                     <li><a href="addBooks.php">ADD BOOKS<span></span></a></li>
