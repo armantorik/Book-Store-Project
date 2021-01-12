@@ -44,8 +44,9 @@ include("function/functions.php");
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="index.php">Home</a></li>
                     <?php 
-                                      
-                        if($_SESSION['isC']) // if email set, then it is a customer not a guest 
+                          
+                        $_SESSION['rated'] = false;
+                        if(isset($_SESSION['email'])) // if email set, then it is a customer not a guest 
                         {
                             echo "<li><a href = 'Profile.php'>Hi ".$_SESSION['name']." !</a></li>"; 
                             echo "<li><a href='logout.php'>Logout</a></li>"; 

@@ -33,7 +33,6 @@ function cart(){
         $book_id = $_GET['add_cart'];
 
         $check_product = "SELECT `book_id`, `quantity` FROM `basket` WHERE  book_id='$book_id' AND user_id ='$id'";
-        
         $run_check = mysqli_query($conn, $check_product);
 
         if(mysqli_num_rows($run_check) > 0)
@@ -46,6 +45,7 @@ function cart(){
         {
           $insert_cart = "INSERT INTO `basket`(`book_id`, `quantity`, `user_id`) VALUES ('$book_id', 1, '$id')";
           mysqli_query($conn, $insert_cart);
+
           echo "<script>window.open('index.php','_self')</script>";
         }
     }
@@ -69,13 +69,14 @@ function mycart()
   global $conn;
   $ip = getIpAdd();
 
-  $id = $_SESSION['gid'];
+  $id = $_SESSION['id'];
 
   $count = 1;
 
   $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE user_id = '$id')";
 
   $cart_items = mysqli_query($conn, $get_cart);
+
   $total_price = 0;    
   while($bk = mysqli_fetch_array($cart_items)){
 
@@ -84,7 +85,7 @@ function mycart()
     $bk_title = $bk['name'];
     $bk_id = $bk['pid'];
 
-    $getQuantity = "SELECT `quantity` FROM `basket` WHERE `customer_mail` = '$id' AND `book_id` = '$bk_id'";
+    $getQuantity = "SELECT `quantity` FROM `basket` WHERE `user_id` = '$id' AND `book_id` = '$bk_id'";
 
     $quantityArr = mysqli_query($conn, $getQuantity);
 
@@ -175,7 +176,8 @@ function getbooks(){
                                       <h6>".$row['name']."</h6>
                                       <h7>".$row['author']."</h7>
                                   </span>
-                                  <a href='index.php?add_cart=".$row['pid']."'><button class='buybtn btn btn-warning btn-round btn-sm'>
+                                  <a href='index.php?add_cart=".$row['pid']."'>
+                                  <button class='buybtn btn btn-warning btn-round btn-sm'>
                     Add <i class='material-icons'>add_shopping_cart</i>
                   </button></a>
                                   <button class='knowbtn btn btn-warning btn-round btn-sm' data-toggle='modal' data-target='#".$row['pid']."'>
@@ -380,13 +382,15 @@ function get_bycat()
     }
   }
 
-  function edit_pm(){
+
+  function edit_pm()
+  {
     global $conn;
     if(!isset($_GET['category']))
     {
       $query="SELECT * from products";
       $result=mysqli_query($conn, $query);
-      $ids = 0;
+      
       while($row = mysqli_fetch_array($result))
       {
         $rowid = $row['pid'];
@@ -398,60 +402,40 @@ function get_bycat()
                                         <h7>".$row['author']."</h7>
                                     </span>
                                     <a href='pm.php?remove_product=$rowid'><button class='buybtn btn btn-warning btn-round btn-sm'>
-                                    Remove";
+                                    Remove
+                                    </button></a>
+                                <button class='knowbtn btn btn-warning btn-round btn-sm' data-toggle='modal' data-target='#".$row['pid']."'>
+	 								          Know More
+								          </button>
+                                    ";
                                     
               //code for modal
-            echo "<div class='modal fade' id='$rowid' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-                      <div class='modal-dialog'>
-                        <div class='modal-content'>
-                          <div class='modal-header'>
-                          <form action='pm.php' method='POST'>
-                            <br>
-                            <div class='form-group'>
-                          <label class='control-label'>Product Name</label>
-                              <input type='text' class='form-control input-lg' name='chName'>
-                              </div>
-                                <div>
-                                <label class='control-label'>Info</label>
-                                    <input type='text' class='form-control input-lg' name='chInfo' >
-                                </div>
-                                <div>
-                                <label class='control-label'>Rating</label>
-                                    <input type='text' class='form-control input-lg' name='chRating' >
-                                </div>
-                                <div>
-                                <label class='control-label'>Price</label>
-                                    <input type='text' class='form-control input-lg' name='chPrice' >
-                                </div>
-                                <div>
-                                <label class='control-label'>Category</label>
-                                    <input type='text' class='form-control input-lg' name='chCat' >
-                                </div>
-                                <div>
-                                <label class='control-label'>Comment</label>
-                                    <input type='text' class='form-control input-lg' name='chComment' >
-                                </div>
-                                <div>
-                                <label class='control-label'>Image</label>
-                                    <input type='text' class='form-control input-lg' name='chImage' >
-                                </div>
-                                <div>
-                                <label class='control-label'>Author</label>
-                                    <input type='text' class='form-control input-lg' name='chAuthor' >
-                                </div>
-                                <div>
-                                <label class='control-label'>Keywords</label>
-                                    <input type='text' class='form-control input-lg' name='chKeywords' >
-                                </div>
-                                </form>
-                              </div>
-                          <div class='modal-body'>
-                        </div>
-                        </div>
-                      </div>
+        echo "
+        
+        <div class='modal fade' id='".$row['pid']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+
+        <div class='modal-dialog'>
+
+          <div class='modal-content'>
+
+            <div class='modal-header'>
+              <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+              <h4 class='modal-title' id='myModalLabel'>Book Name: ".$row['name']."</h4>
+            </div>
+            <div class='modal-body'>
+
+            <h4><p align ='left'>Id = ".$row['pid']."</p></h4> 
+            <h4><p align='right'>Price: &#8378;".$row['price']."</p></h4>Info: ".
+                $row['info']
+            ."</div>
+            <div class='modal-footer'>
+              <button type='button' class='btn btn-default btn-simple' data-dismiss='modal'>Close</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
                     </div>
-                                    
-                  </div>
                             </div>";    //the last two </div> are from previous echo.
   
                           

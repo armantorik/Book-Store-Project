@@ -108,7 +108,7 @@ include("function/functions.php");
         {
             foreach($_POST['remove'] as $remove_id)
             {
-                $deleteOrdec = "UPDATE `basket` SET `quantity` = `quantity` - 1 WHERE `book_id` = '$remove_id' AND `customer_mail` = '$id'";
+                $deleteOrdec = "UPDATE `basket` SET `quantity` = `quantity` - 1 WHERE `book_id` = '$remove_id' AND `user_id` = '$id'";
                 
                 $run_delete = mysqli_query($conn, $deleteOrdec);
                 rmZeros();

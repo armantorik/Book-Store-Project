@@ -94,8 +94,8 @@
                                     <h6>".$row['name']."</h6>
                                     <h7>".$row['author']."</h7>
                                 </span>
-                                <a href='index.php?add_cart=".$row['pid']."'><button class='buybtn btn btn-warning btn-round btn-sm'>
-	 								Add <i class='material-icons'>add_shopping_cart</i>
+                                <a href='resultsPm.php?remove_cart=".$row['pid']."'><button class='buybtn btn btn-warning btn-round btn-sm'>
+	 								Remove
 								</button></a>
                                 <button class='knowbtn btn btn-warning btn-round btn-sm' data-toggle='modal' data-target='#".$row['pid']."'>
 	 								Know More
@@ -110,7 +110,7 @@
                         <h4 class='modal-title' id='myModalLabel'>".$row['name']."</h4>
                       </div>
                       <div class='modal-body'>
-                      <h4><p align='right'>&#8377;".$row['price']."</p></h4>".
+                      <h4><p align='right'>&#8378;".$row['price']."</p></h4>".
                           $row['info']
                       ."</div>
                       <div class='modal-footer'>
@@ -124,6 +124,14 @@
 							</div>
                         </div>";    //the last two </div> are from previous echo.
 	}
+}
+
+
+if(isset($_GET['remove_cart']))
+{
+    $pid = $_GET['remove_cart'];
+    $sqlDelete = "DELETE from products where pid = 'pid'";
+    mysqli_query($conn, $sqlDelete);
 }
 ?> 
                     </div>

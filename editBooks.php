@@ -128,20 +128,16 @@ include("function/functions.php");
                         {
                                 $theID = $_POST['theID'];
 
-                                //$tmp = mysqli_query($conn, "SELECT `name` from products where pid = '$theID'");
-                                //$num = mysqli_num_rows($tmp);
-                                //echo "<script>alert('$num') </script>";
-
                                 $qr = "SELECT * FROM products WHERE pid = '$theID'";
 
                                 $returned = mysqli_query($conn, $qr);
                                 
 
                                 if(mysqli_num_rows($returned) == 0)
-                                    die("A product with that id does not exist!");
+                                    die("A product with that id does not exist!"); // change to alert or smth 
+
                                 else
                                 {
-
                                     if($_POST['chName'] != "")
                                     {
                                         $chName = $_POST['chName'];

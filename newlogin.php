@@ -98,6 +98,9 @@ include("includes/db.php");
 				$smusername= $_POST['loginemail'];
 				$smpass = $_POST['loginpass'];
 				
+				//sec test: 
+				// SELECT * from customers where c_password='arman' OR 1 = 1'' AND c_mail='arman' OR 1 = 1''
+
 				$sel_c = "SELECT * from customers where c_password='$pass' AND c_mail='$email'";
                 $run_c = mysqli_query($conn,$sel_c);
 				

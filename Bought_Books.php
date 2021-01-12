@@ -150,33 +150,46 @@ include("function/functions.php");
                             //echo "<script> alert('$bk[1]') </script>";
                             $id = $_SESSION['id'];
 
-                            if (isset($_POST["rating".$bk[5].""]) && $_POST["rating".$bk[5].""] == 5) {
+                            $rated = $_SESSION['rated']; //creating a bool varibable to check if the customer has rated the product or not 
+
+                            if (isset($_POST["rating".$bk[5].""]) && $_POST["rating".$bk[5].""] == 5 && $rated == FALSE) {
                                 mysqli_query($conn, "INSERT into user_rates(u_id, rating, p_id)  values('$id', 5, '$bk[5]')");
                                 unset($_POST["comment".$bk[5].""]);
+                                $_SESSION['rated'] = TRUE;
                             }
 
-                            else if (isset($_POST["rating".$bk[5].""]) && $_POST["rating".$bk[5].""] == 4) {
+                            else if (isset($_POST["rating".$bk[5].""]) && $_POST["rating".$bk[5].""] == 4 && $rated == FALSE) {
                                 $id = $_SESSION['id'];
                                 mysqli_query($conn, "INSERT into user_rates(u_id, rating, p_id)  values('$id', 4, '$bk[5]')");
                                 unset($_POST["comment".$bk[5].""]);
+                                $_SESSION['rated'] = TRUE;
                             }
 
-                            else if (isset($_POST["rating".$bk[5].""]) && $_POST["rating".$bk[5].""] == 3) {
+                            else if (isset($_POST["rating".$bk[5].""]) && $_POST["rating".$bk[5].""] == 3 && $rated == FALSE) {
                                 $id = $_SESSION['id'];
                                 mysqli_query($conn, "INSERT into user_rates(u_id, rating, p_id)  values('$id', 3, '$bk[5]')");
                                 unset($_POST["comment".$bk[5].""]);
+                                $_SESSION['rated'] = TRUE;
                             }
 
-                            else if (isset($_POST["rating".$bk[5].""]) && $_POST["rating".$bk[5].""] == 2) {
+                            else if (isset($_POST["rating".$bk[5].""]) && $_POST["rating".$bk[5].""] == 2 && $rated == FALSE) {
                                 $id = $_SESSION['id'];
                                 mysqli_query($conn, "INSERT into user_rates(u_id, rating, p_id)  values('$id', 2, '$bk[5]')");
                                 unset($_POST["comment".$bk[5].""]);
+                                $_SESSION['rated'] = TRUE;
                             }
 
-                            else if (isset($_POST["rating".$bk[5].""]) && $_POST["rating".$bk[5].""] == 1) {
+                            else if (isset($_POST["rating".$bk[5].""]) && $_POST["rating".$bk[5].""] == 1 && $rated == FALSE) {
                                 $id = $_SESSION['id'];
                                 mysqli_query($conn, "INSERT into user_rates(u_id, rating, p_id)  values('$id', 1, '$bk[5]')");
                                 unset($_POST["comment".$bk[5].""]);
+                                $_SESSION['rated'] = TRUE;
+                            }
+
+                            else
+                            {
+                                echo "<script>alert('You have already rated the book.')</script>";
+
                             }
                             
                             if(isset($_POST["txt".$bk[5].""]))

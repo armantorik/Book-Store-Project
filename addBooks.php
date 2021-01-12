@@ -157,14 +157,14 @@ include("function/functions.php");
         }    
         unset($_POST['addBook']);
         
-        if (isset($_POST['addBook']))
-            echo "<script>alert('Prblm!')</script>";
+       // if (isset($_POST['addBook']))
+           // echo "<script>alert('Prblm!')</script>";
 
     }
     else if(isset($_POST['addBook']))
         echo "<script>alert('Don't leave empty fields!')</script>";
     else 
-        echo "<script>alert('No Prblm!')</script>";
+        //echo "<script>alert('No Prblm!')</script>";
 
     ?>
 

@@ -86,8 +86,8 @@ include("function/functions.php");
         $id = $_SESSION['id'];
 
         $count = 1;
-        $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM basket WHERE customer_mail = '$id')";
-
+        $get_cart = "SELECT * FROM `products` WHERE `pid` IN (SELECT `book_id` FROM `basket` WHERE `user_id` = '$id')";
+        
         $cart_items = mysqli_query($conn, $get_cart);
         $total_price = 0;
         $shopSummary = "";
@@ -125,16 +125,16 @@ include("function/functions.php");
 
         while ($bk = mysqli_fetch_array($cart_items)) {
           $single_price = $bk['price'];
-
           $bk_title = $bk['name'];
           $shopSummary = "{$shopSummary}{$bk_title}/";
           $bk_id = $bk['pid'];
 
-            $toSql = "INSERT INTO bought_books(c_id, p_id) VALUES(".$_SESSION['id'].", '$bk_id')";
+            $toSql = "INSERT INTO `bought_books`(`c_id`, `p_id`) VALUES('$id', '$bk_id')";
 
             mysqli_query($conn, $toSql);
-
-            $getQuantity = "SELECT `quantity` FROM `basket` WHERE `customer_mail` = '$id' AND `book_id` = '$bk_id'";
+            $err = mysqli_error($conn);
+            echo "<script>alert('$err')</script>";
+            $getQuantity = "SELECT `quantity` FROM `basket` WHERE `user_id` = '$id' AND `book_id` = '$bk_id'";
 
           $quantityArr = mysqli_query($conn, $getQuantity);
 
@@ -167,9 +167,10 @@ include("function/functions.php");
           </tr>";
 
 
-          $lastDel = "DELETE from basket where customer_mail = $id";
-
+          $lastDel = "DELETE from basket where user_id = $id";
           mysqli_query($conn, $lastDel);
+
+          echo "<script>window.open('payment.php','_self')</script>";
       }
         ?>  
 

@@ -169,7 +169,7 @@ img
             <?php 
 
                 if($_SESSION['isC'])
-                    $id = $_SESSION['cid'];
+                    $id = $_SESSION['id'];
                 else
                     $id = -1 * $gid;
 
