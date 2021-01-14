@@ -100,15 +100,24 @@ include("function/functions.php");
 
                     <?php
 
-                    $id = $_SESSION['id'];  
 
+                    $id = $_SESSION['id'];  
+                    if($_SESSION['isC']){
+                        
                     //             0          1     2          3       4       5
                     $qr = "SELECT p.name, p.author, p.rating, p.image, p.price, p.pid
-                            FROM customers c, bought_books b, products p
+                            FROM customers c, bought_books_customer b, products p
                             WHERE c.c_id = '$id' AND c.c_id = b.c_id AND b.p_id = p.pid            
                             ";
                     $bookarr = mysqli_query($conn, $qr);
-                
+                }
+                    else{
+                        $qr = "SELECT p.name, p.author, p.rating, p.image, p.price, p.pid
+                                FROM guests g, bought_books_guest b, products p
+                                WHERE g.g_id = '$id' AND g.g_id = b.g_id AND b.p_id = p.pid            
+                                ";
+                        $bookarr = mysqli_query($conn, $qr);
+                    }
                     
                     $count = 0;
                     while ($bk = mysqli_fetch_row($bookarr)) {
@@ -144,10 +153,9 @@ include("function/functions.php");
                                 </form>
                                 </th>
                             </tr>";
+                        
 
-
-                        if (isset($_POST["comment".$bk[5].""])) {
-                            //echo "<script> alert('$bk[1]') </script>";
+                        if (isset($_POST["comment".$bk[5].""])) { 
                             $id = $_SESSION['id'];
 
                             $rated = $_SESSION['rated']; //creating a bool varibable to check if the customer has rated the product or not 

@@ -27,7 +27,6 @@ include("includes/db.php");
 <!--===============================================================================================-->
 </head>
 <body>
-	
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -102,7 +101,17 @@ include("includes/db.php");
 		</div>
 	</div>
 
- 
+	<?php 
+	$rand = rand(0,1);
+	if($rand == 0)
+		echo "<img width = '1700' data-width='100%' src='assets/gif.gif' />";
+	else
+		echo '<div class="tenor-gif-embed" data-postid="8868491" data-share-method="host" data-width="100%" data-aspect-ratio="1.8043478260869565"><a href="https://tenor.com/view/attack-on-titan-season-two-killed-erens-mother-scary-gif-8868491">Attack On Titan Season Two GIF</a> from <a href="https://tenor.com/search/attackontitan-gifs">Attackontitan GIFs</a></div><script type="text/javascript" async src="https://tenor.com/embed.js"></script>';
+	?>
+	<audio autoplay>
+<source src="assets/aot2.mp3" type="audio/mpeg">
+</audio>
+
     <?php
     //Sign Up
             if(isset($_POST['sign']))
@@ -142,6 +151,12 @@ include("includes/db.php");
 		$('.js-tilt').tilt({
 			scale: 1.1
 		})
+
+window.onload = function() {
+  var context = new AudioContext();
+}
+
+		
 	</script>
 <!--===============================================================================================-->
 	<script src="Login_v1/js/main.js"></script>

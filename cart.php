@@ -100,6 +100,7 @@ include("function/functions.php");
                 <?php mycart(); ?>
 
                 <?php 
+                
     if(isset($_POST['update_cart']))
     {
             $id = $_SESSION['id'];

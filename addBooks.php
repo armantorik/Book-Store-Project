@@ -63,7 +63,6 @@ include("function/functions.php");
                     </button>
                 </form>
 
-
             </div>
 
         </div>
@@ -72,7 +71,7 @@ include("function/functions.php");
 
 
     <!-- Display the column names using bootstrap modal -->
-    <form action="addBooks.php" method="post">
+    <form action="addBooks.php" method="post" >
         <div class='modal-dialog'>
             <div class='modal-content'>
                 <div class='modal-header'>
@@ -106,7 +105,11 @@ include("function/functions.php");
                               
                                -->
                     <label class='control-label'>Image</label>
-                    <input type='text' class='form-control input-lg' name='chImage'>
+                   <!-- <input type='text' class='form-control input-lg' name='chImage'> -->
+
+                    Choose a file to upload: <input name="chImage" type="file" /><br />
+                   
+
 
 
                     <label class='control-label'>Author</label>
@@ -143,6 +146,14 @@ include("function/functions.php");
         // $chComment = $_POST['chComment'];
 
         $chImage = $_POST['chImage'];
+
+
+        $target_path = "assets/images/";
+        $product_img1 = $_FILES[$chImage]['name'];
+        $temp_name1 = $_FILES['product_img1']['tmp_name'];
+        move_uploaded_file($temp_name1,"assets/images/$product_img1");
+
+
 
         $chAuthor = $_POST['chAuthor'];
 
