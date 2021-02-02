@@ -6,6 +6,25 @@ include("includes/db.php");
 ?>
 <html lang="en">
 <head>
+
+
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .imgbox {
+            display: grid;
+            height: 100%;
+        }
+        .center-fit {
+            max-width: 100%;
+            max-height: 100vh;
+            margin: auto;
+        }
+    </style>
+
+
 	<title>Create Account</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -104,7 +123,7 @@ include("includes/db.php");
 	<?php 
 	$rand = rand(0,1);
 	if($rand == 0)
-		echo "<img width = '1700' data-width='100%' src='assets/gif.gif' />";
+		echo "<img class = 'center-fit' src='assets/gif.gif' />";
 	else
 		echo '<div class="tenor-gif-embed" data-postid="8868491" data-share-method="host" data-width="100%" data-aspect-ratio="1.8043478260869565"><a href="https://tenor.com/view/attack-on-titan-season-two-killed-erens-mother-scary-gif-8868491">Attack On Titan Season Two GIF</a> from <a href="https://tenor.com/search/attackontitan-gifs">Attackontitan GIFs</a></div><script type="text/javascript" async src="https://tenor.com/embed.js"></script>';
 	?>

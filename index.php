@@ -126,6 +126,7 @@ include("function/functions.php");
             </div>
         </div>
     </div>
+
 </body>
 
 <!--   Core JS Files   -->

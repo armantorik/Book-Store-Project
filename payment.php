@@ -133,8 +133,8 @@ include("function/functions.php");
             $toSql = "INSERT INTO `bought_books_customer`(`c_id`, `p_id`) VALUES('$id', '$bk_id')";
 
             mysqli_query($conn, $toSql);
-            $err = mysqli_error($conn);
-            echo "<script>alert('$err')</script>";
+            //$err = mysqli_error($conn);
+            //echo "<script>alert('$err')</script>";
 
 
             
